@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>reveal.js</title>
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/jawalsh.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+		<style type="text/css">
+			.reveal img {max-height: 640px;}
+		</style>	
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<!--
+				<section>Slide 1</section>
+				<section>Slide 2</section>
+				-->
+<!-- markdown section: slides separated by 3 dashes -->
+<section data-markdown>
+<textarea data-template>
+[cb]: https://collectionbuilder.github.io/ "CollectionBuilder"
+## Agenda
+- Next week
+- Markdown
+- GitHub
+---
+## Markdown
+- Various flavors of Markdown
+- The original and official version developed by John Gruber at documented at <https://daringfireball.net/projects/markdown/>
+- Other versions build upon Gruber’s original Markdown.
+	- [GitHub Flavored Markdown](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#GitHub-flavored-markdown)
+---
+## Markdown editors
+- Visual Code Studio
+- BBEdit
+- Oxygen
+- iA Writer
+- popChar
+---
+	
+</textarea>
+</section>
+</div>
+		</div>
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+			});
+		</script>
+	</body>
+</html>
