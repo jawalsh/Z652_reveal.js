@@ -149,11 +149,19 @@ Indiana University
 ## Unicode, and other character encodings
 - A character encoding system, i.e., a system that maps characters to to some other representation, e.g, code points, or numbers, that the computer uses to represent characters.
 - ASCII, a common text encoding for “plain text” documents, has only 128 code points. Thus, it cannot possibly accommodate the thousands of characters used by historical, current, and fictional scripts and symbol systems.
-- [Unicode 15](https://home.unicode.org/announcing-the-unicode-standard-version-15-0/, the current version as of 2022-09-13, has 1,112,064 assignable code points and contains 149,186 characters from the 161 of the world’s scripts and 4,193 CJK (Chinese, Japanese, and Korean) ideographs. See How many Unicode characters are there?
+---
+## Unicode, and other character encodings
+
+[Unicode 15](https://home.unicode.org/announcing-the-unicode-standard-version-15-0/), the current version as of 2022-09-13, has:
+
+- 1,112,064 assignable code points 
+- 149,186 characters from the 161 of the world’s scripts 
+- 4,193 CJK (Chinese, Japanese, and Korean) ideographs. 
 
 See:
 - <https://en.wikipedia.org/wiki/Unicode#Codespace_and_Code_Points>
 - <https://home.unicode.org/announcing-the-unicode-standard-version-15-0/>
+- <https://www.babelstone.co.uk/Unicode/HowMany.html>
 
 ---
 ## characters vs. glyphs
@@ -230,6 +238,17 @@ Download and install a Unicode reference app, and find some interesting characte
 - [UnicodeChecker](http://earthlingsoft.net/UnicodeChecker/) (mac)
 - <https://unicode-table.com/en/#nko (web)
 - [BabelMap](http://www.babelstone.co.uk/Software/BabelMap.html) (windows)
+---
+## Identifying character sets and encoding
+- X/HTML
+	- `<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />`
+	- `<meta http-equiv="Content-Type" content="text/html;charset=ISO-8859-1" />`
+- XML
+	- `<?xml version="1.0" encoding="utf-8"?>`
+	- `<?xml version="1.0" encoding="US-ASCII"?>`
+- HTML5
+	- <meta charset="utf-8" />
+	- `<meta charset="ISO-8859-1" />`
 </textarea>
 </section>
 
