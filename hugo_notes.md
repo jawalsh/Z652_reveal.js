@@ -20,7 +20,7 @@
 - Elle et son mari sommes noyée dans un accident de bateau sur la seine près de Villequier
 - 
 
-## Formal aspects
+## les charactéristiques formelles et poétiques
 
 - quatre quatrains
 - douze vers au total
