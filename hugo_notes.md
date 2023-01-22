@@ -5,14 +5,20 @@
 - La plupart des anglophones le connaissent pour ses romans comme Les Misérable et Notre Dame de Paris.
 - Mais il a aussi écrit des poèmes et des drames
 
+## Un bref aperçu
+
+- le context biographique
+- les characteristiques formales et poétique
+- une analyse du poème
+
 ## Le context biographique
 - Je parlerai d'abord du contexte biographique du poème
-- Hugo est né 1802 est il est mort 1885
-- Il avait cinq enfants
+- Hugo a écris ce poème en 1847, alors qu’il avait quatre-cinq ans
+- Quatre ans plus tôt, sa fille s'est noyée
 - Sa fille aînée Léopoldine est né 1826. 
 - Quand elle n'avait que dix-neuf ans, en 1843, peu de temps après son mariage, elle s'est noyée.
 - Elle et son mari sommes noyée dans un accident de bateau sur la seine près de Villequier
-- Hugo a écris ce poème en 1847.
+- 
 
 ## Formal aspects
 
