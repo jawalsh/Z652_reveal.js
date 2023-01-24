@@ -18,7 +18,6 @@
 - Sa fille aînée Léopoldine est né 1826. 
 - Quand elle n'avait que dix-neuf ans, en 1843, peu de temps après son mariage, elle s'est noyée.
 - Elle et son mari sommes noyée dans un accident de bateau sur la seine près de Villequier
-- 
 
 ## les charactéristiques formelles et poétiques
 
@@ -29,8 +28,22 @@
 - chaque hémistiche exprime une phrase ou une idée.
 - schéma de rimes: rime croisée (abab)
 
+## _Les Contemplations_
 
+###Structure of the book[edit]
 
+Le livre se organize en deux parties. Chaque partie a trois chaptires.
+
+- Autrefois (1830 - 1843)
+	- I. Aurore
+	- II. L'âme en fleur
+	- III. Les luttes et les rêves
+- Aujourd'hui (1843 - 1855)
+	- IV. Pauca meae
+	- V. En marche
+	- VI. Au bord de l'infini
+	- À celle qui est restée en France
+	
 ## Le progression du poème
 ### la première strophe
 - le poète s'adresse à quelqu'un et lui dit qu'il partira le lendemain à l'aube pour la rencontrer où elle l'attend
@@ -43,6 +56,8 @@
 - il est entouré de sites et de sons de la nature mais il ne voit rien et n'entend rien
 - la description de son corps évoque la souffrance et l'inquiétude: "le dos courbé" et "les mains croisées"
 - Son chagrin est explicite dans le dernier vers
+
+La forêt et la montagne symbolisent la difficulté de son voyage
 
 ### la troisieme strophe
 
