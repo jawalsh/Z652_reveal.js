@@ -14,6 +14,7 @@
 		<link rel="stylesheet" href="plugin/highlight/monokai.css">
 		<style type="text/css">
 			.reveal img {max-height: 640px;}
+			code {color: #4557e0;}
 		</style>	
 	</head>
 	<body>
@@ -38,7 +39,7 @@
 - directory structure is a tree structure
 - root directory : `/`
 ---
-![directory tree structure](images/linux-directory-structure.png.org.webmproject.webp)  
+![directory tree structure](images/linux-directory-structure.webp)  
 image credit: <https://linuxhandbook.com/linux-directory-structure/>
 ---
 ## `ls`: view the files in a directory/folder
@@ -78,7 +79,7 @@ image credit: <https://linuxhandbook.com/linux-directory-structure/>
 ![!mv command](images/mv.png)
 ---
 ## `mv`: move or rename files
-- `mv ~/Downloads/bookends.dmg ~/Desktop 
+- `mv ~/Downloads/bookends.dmg ~/Desktop` 
 ![!mv command](images/mvdir.png)
 ---
 ## `$PATH` environment variable
@@ -98,11 +99,14 @@ For instance, consider these two directories:
 
 - `/Users/jawalsh/my-web-site` contains the HTML and other files for my personal web site.
 - `/Users/jawalsh/my-web-site/images` contains the images for my web site.
-
+---
+## Commands and file paths
 If I am in the directory `/Users/jawalsh/my-web-site` and I type the command `magick image.jpg -scale 50% image_sm.jpg` to create a smaller version of an image file, the command will not work if my image files are in `/Users/jawalsh/my-web-site/images`.
 
 So I can change directories to `/Users/jawalsh/my-web-site/images` and run the command, and it will work.
 
+---
+## Commands and file paths
 Or… I can be in any directory and tell the command the full path to the image files, e.g.:
 
 - `magick /Users/jawalsh/my-web-site/images/image.jpg -scale 50% /Users/jawalsh/my-web-site/images/image_sm.jpg`
