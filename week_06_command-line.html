@@ -50,15 +50,20 @@ image credit: <https://linuxhandbook.com/linux-directory-structure/>
 ## `cd`: change directories
 
 - `cd &lt;directory name>`
-- `cd \Users\jawalsh\Documents`
+- `cd /Users/jawalsh/Documents`
 
 ---
 ## Directory shortcuts
 - `~` = home directory
 	- `cd ~`
 - `..` = parent directory (go up one level in the tree)
-	- If I am in the directory `\Users\jawalsh\Documents\french\f361` and I run the command `cd ..`, I will change directories to `\Users\jawalsh\Documents\french\`
-	- If I am in the directory `\Users\jawalsh\Documents\french\f361` and I run the command `cd ..\f250`, I will change directories to `\Users\jawalsh\Documents\french\f250`
+	- If I am in the directory `/Users/jawalsh/Documents/french/f361` and I run the command `cd ..`, I will change directories to `/Users/jawalsh/Documents/french/`
+	- If I am in the directory `/Users/jawalsh/Documents/french/f361` and I run the command `cd ../f250`, I will change directories to `/Users/jawalsh/Documents/french/f250`
+	
+---
+## `mkdir`: Make directory
+- `mkdir z652`
+- `mkdir /Users/jawalsh/Documents/z652`
 
 ---
 ## `pwd`: print working directory (a.k.a. “Where am I?”)
