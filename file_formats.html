@@ -1,0 +1,153 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>reveal.js</title>
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/jawalsh.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+		<style type="text/css">
+			.reveal img {max-height: 640px;}
+		</style>	
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<!--
+				<section>Slide 1</section>
+				<section>Slide 2</section>
+				-->
+<!-- markdown section: slides separated by 3 dashes -->
+<section data-markdown>
+<textarea data-template>
+[cb]: https://collectionbuilder.github.io/ "CollectionBuilder"
+## YAML
+<http://www.yaml.org/>
+
+[YAML](http://www.yaml.org/) is a “human readable” plain text data format. It is used in Jekyll for configuration, site data, and Front matter.
+
+Comments are added using a hash `#`. Anything after a # on a line is ignored in processing–so comments are just notes to other humans!
+
+For example:
+
+```yaml
+# an example comment line
+example_key: An Example Value
+another_key: "A value with a colon: so it must be quoted" 
+```
+---
+## Common YAML Errors
+YAML is _very picky_ about tiny details of spaces and indentation! If you have incorrect YAML in your “_config.yml”, your Jekyll project won’t build, and you’ll get mysterious error messages.
+
+Carefully check over your `_config.yml` for these common errors:
+---
+## Space in front of key
+
+The key needs to start the line, no spaces in front! This can be hard to see. If you uncomment an option, be sure to delete that extra space in front.
+
+**wrong**  
+```yaml
+ example_key: An Example Value
+```
+**correct**
+```yaml
+example_key: An Example Value
+```
+---
+## Missing space after colon
+
+The key needs to be followed by exactly colon + space `: `. If you don’t put a space before the starting the value, you’ll get an error.
+
+**wrong**  
+```yaml
+title:Comic Book Paratexts
+```
+**correct**
+```yaml
+title: Comic Book Paratexts
+```
+
+---
+## Failure to quote values that include a colon
+
+If your value contains a colon `:`, be sure to put quotation marks `"` around the full value!
+
+**wrong**  
+```yaml
+title: CBP: Comic Book Paratexts
+```
+**correct**
+```yaml
+title: "CBP: Comic Book Paratexts"
+```
+---
+## YAML in CollectionBuilder
+
+In CollectionBuilder, YAML is used for configuration in `_config.yml` and `_data/theme.yml`. All options are basic key value pairs. Each pair is on its own line, following the pattern _key_ + colon + space + _value_. Putting quotes around the value is optional, unless it contains a colon or line breaks.
+---
+## CSV (Comma-separted values)
+
+Comma-separated values (CSV) is a text file format that uses commas to separate values and newlines to separate records (or rows).
+
+A CSV file stores tabular data (like a spreadsheet) in plain text, where each line of the file represents one data record (or row).
+
+Each record (or row) consists of the same number of fields, and these are separated by commas in the CSV file. If commas appear in the the field, fields can be surround by quotation marks.
+
+```plaintext
+first name,last name,birth date,birth place
+Algernon Charles,Swinburne,1837-04-05,"London, England"
+Bryan,Ferry,1945-09-26,"Washington, County Durham, England"
+Julien,Baker,1995-09-29,"Germantown, TN"
+Damon,Albarn,1968-03-23,"London, England"
+```
+---
+## CSV in CollectionBuilder
+
+In CollectionBuilder, CSV is used for your main metadata file and also for different aspects of site configuration, for example in `config-nav.csv` and `config-search.csv`. 
+---
+## Example `config-nav.csv`
+
+```plaintext
+display_name,stub,dropdown_parent
+Home,/,
+Browse,/browse.html,
+Subjects,/subjects.html,
+Publishers,/publishers.html,
+Timeline,/timeline.html,
+Data,/data.html,
+About,,
+About CBP,about.html,About
+People,/people.html,About
+“Here’s What You Get”: An introduction to comic book paratexts,/cbp.html,About
+Metadata Profile,/metadata-profile.html,About
+```
+
+
+</textarea>
+</section>
+</div>
+		</div>
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+			});
+		</script>
+	</body>
+</html>
