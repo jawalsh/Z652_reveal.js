@@ -1,0 +1,137 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>reveal.js</title>
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/jawalsh.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+		<style type="text/css">
+			.reveal img {max-height: 640px;}
+		</style>	
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<!--
+				<section>Slide 1</section>
+				<section>Slide 2</section>
+				-->
+<!-- markdown section: slides separated by 3 dashes -->
+<section data-markdown>
+<textarea data-template>
+[cb]: https://collectionbuilder.github.io/ "CollectionBuilder"
+## CollectionBuilder
+#### More configuration, more features
+---
+## `config-search.csv`
+<https://collectionbuilder.github.io/cb-docs/docs/customization/config-search/#search-configuration-config-searchcsv>
+
+`config-searcc.csv` tells CollectionBuilder which of your metadata fields are index, i.e., which metadata fields your users will be able to search.
+
+The columns in the csv file are:
+
+#### field:
+- Determines the metadata field to be indexed for search
+	- Example: `title`, `date`, `description`, etc.
+#### index:
+- Determines whether the field is searchable.
+	- _Options:_ `true`, `false`
+- display:
+	- Determines whether the value of that metadata field is displayed in the search results.
+	- _Options:_ `true`, `false`
+	
+---
+## `config-search.csv` example
+```csv
+field,index,display
+title,true,true
+date,true,true
+creator,true,false
+description,true,true
+subject,true,true
+location,true,false
+```
+---
+## `config-browse.csv`
+<https://collectionbuilder.github.io/cb-docs/docs/customization/config-browse/#browse-page-configuration-config-browsecsv>
+
+`config-browse.csv` controls which metadata appears on a card for each item in the browse screens. Title appears on the card automatically. After that, you can add whatever metadata you’d like to the CSV, as well as determine how that metadata will be displayed.
+
+---
+## browse cards
+
+![CollectionBuilder browse cards](images/cb_browse_cards.png)
+
+---
+
+The columns in the csv file are:
+
+#### field:
+- Selects the field from your metadata CSV.
+
+#### display_name:
+- Determines the field name as it is displayed to users.
+
+#### btn:
+- Determines whether the field displays as a button.
+	- _Options:_ `true` or leave blank
+	- `true` will turn all metadata in that field into buttons, and is recommend for fields that have multiple entries, like ‘subject.’
+
+#### hidden:
+- Determines whether this field is hidden.
+	- _Options:_ `true` or leave blank
+	- Useful when you don’t want a metadata field to be visibly present on Browse page cards, but still want to filter for that field.
+#### sort_name:
+- Determines if the field will be used as an option to sort cards on the browse page via the dropdown menu to the right of the search box. This option also determines the label used in that dropdown menu for the field.
+	- _Options:_ write whatever word/phrase you’d like to show up in the dropdown field. Once an option is entered, the sort function will work for that field. Typically, you just put the display_name here, but oftentimes it’s helpful to give more context, such as in the example below for Date, where the sort function indicates that it will sort by "Date Created"
+---
+## `config-browse.csv` example
+
+```
+field,display_name,btn,hidden,sort_name
+date,Date,,,Date Created
+description,,,,
+creator,Creator,,,
+subject,,true
+location,,true
+identifier,,,true,Identifier
+```
+---
+## `config-browse.csv` example
+
+```
+field,display_name,btn,hidden,sort_name
+date,Date,,,Date
+source,Source,,,
+paratext type,Paratext type,,,Paratext type
+tag,Tags,,,
+```
+</textarea>
+</section>
+</div>
+		</div>
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+			});
+		</script>
+	</body>
+</html>
