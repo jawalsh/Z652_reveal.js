@@ -1,0 +1,238 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>reveal.js</title>
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/jawalsh.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+		<style type="text/css">
+			.reveal img {max-height: 480px; border-right: none;}
+			.container{
+   				 display: flex;
+			}
+			.col{
+ 			   flex: 1;
+			}
+		</style>	
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<!--
+				<section>Slide 1</section>
+				<section>Slide 2</section>
+				-->
+<!-- markdown section: slides separated by 3 dashes -->
+<section data-markdown>
+<textarea data-template>
+<!-- .slide: data-background="#111" data-background-transition="fade" -->
+# 📅 Week 8 — Image Objects 2  
+### APIs & IIIF (International Image Interoperability Framework)
+
+---
+
+### 🧠 Agenda
+1. Quick Review — Images & Compression  
+2. What Is an API?  Examples & Parameters  
+3. IIIF Overview — Architecture & Use Cases  
+4. Hands-on Exploration & Discussion
+
+---
+
+## 🖼️ Bitmap vs Vector Graphics
+| | Bitmap (Raster) | Vector |
+|--|--|--|
+| Composition | grid of pixels | mathematical paths (lines, curves) |
+| Scaling | loses quality when enlarged | infinitely scalable |
+| Common Formats | JPEG, PNG, TIFF | SVG, EPS, PDF |
+| Typical Uses | photographs, scans | logos, diagrams, illustrations |
+
+---
+
+## 🗜️ Compression
+- **Compression = reduce file size**
+- **Lossy (e.g., JPEG)** → discards data, smaller file, some quality loss  
+- **Lossless (e.g., PNG, TIFF)** → keeps all data, larger file, archival quality
+
+---
+
+### 🌐 APIs — Quick Definition
+**API = Application Programming Interface**  
+→ rules for how software communicates and exchanges data  
+
+> 🧩 Think of an API as a menu: you request a dish (endpoint + parameters) and the server returns data (the response).
+
+Most web APIs return structured data (JSON or XML).
+
+---
+
+## 🌐 Try These in Your Browser
+### Wikipedia Summary API  
+[`https://en.wikipedia.org/api/rest_v1/page/summary/Albert_Camus`](https://en.wikipedia.org/api/rest_v1/page/summary/Albert_Camus)
+
+### Open-Meteo Weather API  
+[`https://api.open-meteo.com/v1/forecast?latitude=39.1653&longitude=-86.5264&hourly=temperature_2m`](https://api.open-meteo.com/v1/forecast?latitude=39.1653&longitude=-86.5264&hourly=temperature_2m)
+
+### Library of Congress Collections API  
+[`https://www.loc.gov/collections/?q=comic+books&fo=json`](https://www.loc.gov/collections/?q=comic+books&fo=json)
+
+> 🔧 **Activity:** Change a parameter (e.g., article title, latitude, `fo=xml`) and see how the output changes.
+
+---
+
+## 🧩 APIs in Digital Libraries
+- Reuse data in different applications  
+- Build dynamic search and browse tools  
+- Enable interoperability across institutions  
+
+➡️ **IIIF** is a specialized API for images that follows these same principles.
+
+---
+
+# 🖼️ IIIF Overview
+International Image Interoperability Framework  
+> A set of open standards that enable image sharing and deep zoom across platforms.
+
+### Goals
+- Consistent image delivery and metadata  
+- Interoperability between institutions  
+- Reusable manifests and image services
+
+---
+
+## ⚙️ IIIF Architecture (Simplified)
+```
+      +-----------------------------+
+      |   IIIF-Compatible Viewer    |
+      | (UniversalViewer, Mirador)  |
+      +-------------+---------------+
+                    |
+                    v
+        +-----------+--------------+
+        |     Presentation API     |
+        |   (Manifests & Metadata) |
+        +-----------+--------------+
+                    |
+                    v
+        +-----------+-----------+
+        |       Image API        |
+        |   (Cantaloupe Server)  |
+        +-----------+-----------+
+                    |
+                    v
+              Image Storage
+         (TIFF, JPEG2000, etc.)
+```
+📘 Reference: [IIIF Technical Overview](https://iiif.io/api/annex/notes/technical-overview/)
+
+---
+
+### 🧭 IIIF Components
+| Component | Purpose |
+|------------|----------|
+| **Image API** | Delivers images and tiles; supports parameters for region/size/rotation |
+| **Presentation API** | Describes the structure of digital objects (manifests, canvases) |
+| **Viewer (Client)** | Displays IIIF resources using APIs (e.g., Universal Viewer, Mirador) |
+| *(Optional)* Annotation / Search APIs | Link transcriptions or enable text search |
+
+---
+
+## 🧪 Try It — IIIF Viewers
+- **Universal Viewer:** [https://universalviewer.io/](https://universalviewer.io/)  
+- **E-Codices Example:** [https://www.e-codices.unifr.ch/en/list/one/csg/1092](https://www.e-codices.unifr.ch/en/list/one/csg/1092)  
+- **IU Digital Collections:** [https://digitalcollections.iu.edu/collections/2801pg36g](https://digitalcollections.iu.edu/collections/2801pg36g)  
+- **Lugar Papers:** [https://collections.libraries.indiana.edu/lugar/](https://collections.libraries.indiana.edu/lugar/)
+
+> 🧩 **Group Task:** Find a manifest (URL ending in `/manifest`) and load it into Universal Viewer.
+
+---
+
+### 🧮 IIIF Image API URL Structure
+```
+{scheme}://{server}/{prefix}/{identifier}/{region}/{size}/{rotation}/{quality}.{format}
+```
+
+**Example:**
+
+<span style="font-size:8pt">
+<https://images.biblicon.org/iiif/3/fantastic_comics_015_pg_01.tif/full/max/0/default.jpg>
+</span>
+
+
+| Segment | Meaning |
+|----------|----------|
+| `region` | portion of image (full | x,y,w,h) |
+| `size` | max | pct:n | w,h |
+| `rotation` | degrees (0–360) |
+| `quality` | default, gray, color, bitonal |
+| `format` | jpg, png, tif |
+
+---
+
+### 🧠 Mini Lab — Manipulate a IIIF URL
+Try these variations in your browser:
+```
+# Resize
+.../full/800,/0/default.jpg
+# Crop
+.../0,0,600,600/max/0/default.jpg
+# Grayscale
+.../full/max/0/gray.jpg
+```
+
+> 🔍 **Goal:** See how changing parameters changes the returned image.
+
+---
+
+## 💬 Discussion & Wrap-Up
+**Reflect:**  
+1. How are IIIF URLs similar to other APIs you tested?  
+2. What does IIIF add beyond basic image delivery?  
+3. How could you use IIIF in your final project?
+
+---
+
+### 🔗 Resources & References
+- [IIIF Wikipedia](https://en.wikipedia.org/wiki/International_Image_Interoperability_Framework)  
+- [IIIF.io Technical Overview](https://iiif.io/api/annex/notes/technical-overview/)  
+- [Universal Viewer](https://github.com/UniversalViewer/universalviewer)  
+- [Owen Stephens — Intro to APIs Using IIIF](http://www.meanboyfriend.com/overdue_ideas/2016/06/introduction-to-apis-using-iiif/)  
+- [Sheila Rabun Video: *What Is IIIF?*](https://youtu.be/8LiNbf4ELZM)
+
+---
+
+# ✅ Takeaways
+- APIs = structured data access via URLs and parameters.  
+- IIIF = API standard for images and metadata interoperability.  
+- You can manipulate IIIF image URLs just like other API requests.  
+- Next week → OCR & text extraction (bridging images and text).
+</textarea>
+</section>
+
+</div>
+		</div>
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+			});
+		</script>
+	</body>
+</html>
