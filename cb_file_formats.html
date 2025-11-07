@@ -14,6 +14,10 @@
 		<link rel="stylesheet" href="plugin/highlight/monokai.css">
 		<style type="text/css">
 			.reveal img {max-height: 640px;}
+			.reveal blockquote p:first-child,
+.reveal blockquote p:last-child {
+  display: block;
+}
 		</style>	
 	</head>
 	<body>
@@ -92,9 +96,9 @@ title: "CBP: Comic Book Paratexts"
 ---
 ## YAML in CollectionBuilder
 
-In CollectionBuilder, YAML is used for configuration in `_config.yml` and `_data/theme.yml`. All options are basic key value pairs. Each pair is on its own line, following the pattern _key_ + colon + space + _value_. Putting quotes around the value is optional, unless it contains a colon or line breaks.
+In CollectionBuilder, YAML is used for configuration in `_config.yml` and `_data/theme.yml`. All options are basic key-value pairs. Each pair is on its own line, following the pattern _key_ + colon + space + _value_. Putting quotes around the value is optional, unless it contains a colon or line breaks.
 ---
-## CSV (Comma-separted values)
+## CSV (Comma-Separated Values)
 
 Comma-separated values (CSV) is a text file format that uses commas to separate values and newlines to separate records (or rows).
 
@@ -130,7 +134,70 @@ People,/people.html,About
 “Here’s What You Get”: An introduction to comic book paratexts,/cbp.html,About
 Metadata Profile,/metadata-profile.html,About
 ```
+---
 
+## Escaping Characters
+
+In data formats like **CSV**, **YAML**, **JSON**, and **XML**, certain characters have *special meanings* (commas, quotes, `<`, `>`, `&`, etc.).  
+**Escaping** means marking those characters so they are treated as **literal text**, not as syntax.
+
+---
+### Escaping characters: 📄 CSV Example
+```plaintext
+title,author,date
+Songs before Sunrise,"Swinburne, Algernon Charles",1871
+```
+The comma in the name is handled by wrapping the entire field in quotes.
+
+```plaintext
+artist, albumtitle, date
+"Bowie, David",""Heroes"",1977
+Blur,The Great Escape, 1995
+The Kinks,Face to Face,1966
+```
+The inner quotes are escaped by doubling them (`""`).
+
+---
+
+- [swinburne.csv](examples/swinburne.csv)
+- [swinburne_broken.csv](examples/swinburne_broken.csv)
+- [bowie.csv](examples/bowie.csv)
+- [bowie_broken.csv](examples/bowie_broken.csv)
+
+---
+
+### Escaping characters:  🧾 XML Example
+
+In **XML**, characters like `<`, `>`, and `&` are reserved.  So if you want to display literal XML code in the *content* of your XML, use the escaped characters (**entity references**). See the sample encoding for the message below:
+
+> John & Mary,     
+> 
+> 
+> Use `<em>`tags`</em>` for emphasis
+
+```xml
+<note>
+  <to>John &amp;amp; Mary</to>
+  <message>Use &amp;lt;em&amp;gt;tags&amp;lt;/em&amp;gt; for emphasis</message>
+</note>
+```
+John & Mary,
+
+Use `<em>`tags`</em>` for emphasis
+
+---
+### Build-In XML Entity References
+
+- `&amp;amp;` → `&`  
+- `&amp;lt;` → `<`  
+- `&amp;gt;` → `>`  
+- `&amp;quot;` → `"`  
+- `&amp;apos;` → `'`
+
+---
+
+###  Escaping characters: ✅ Key Takeaway
+Escaping prevents parsers from confusing **data** with **markup** or **syntax**, keeping your content valid, structured, and machine-readable.
 
 </textarea>
 </section>
