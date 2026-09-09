@@ -1,0 +1,688 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Z652 Week 3: Markdown, GitHub, and Static Sites</title>
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/jawalsh.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+		<style type="text/css">
+			.reveal img {max-height: 70%; max-width: 60%;}
+			.reveal .small {font-size: 0.72em;}
+			.reveal .smaller {font-size: 0.60em;}
+			.reveal .columns {display: flex; gap: 2em; text-align: left;}
+			.reveal .columns > div {flex: 1;}
+			.reveal .activity {border-left: 0.18em solid #9b1c31; padding-left: 0.7em;}
+			.reveal .workflow {font-size: 1.05em; line-height: 1.6; text-align: center;}
+		</style>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section data-markdown>
+				<textarea data-template>
+## Z652: Digital Libraries
+Markdown, GitHub, and Static Sites
+
+John Walsh  
+[jawalsh@iu.edu](mailto:jawalsh@iu.edu)
+
+---
+## Today
+
+- Markdown as structured plain text
+- Git and GitHub
+- Repositories, commits, and history
+- Static sites and GitHub Pages
+- CollectionBuilder as a case study
+- Hands-on: edit → commit → publish → update
+
+<!-- **Break: 10:20–10:30** -->
+
+---
+## Learning objectives
+
+By the end of class, you should be able to:
+
+- Explain the relationship among **Markdown, Git, GitHub, repositories, commits, and static websites**.
+- Read and write common Markdown syntax.
+- Describe how repository files can become a public website through GitHub Pages.
+- Make, commit, and publish a simple change using GitHub.
+- Explain why plain text, version control, and static sites can be useful for digital-library projects.
+- Identify the basic role GitHub plays in a CollectionBuilder project.
+
+---
+<!-- .slide: class="activity" -->
+## Opening question
+### <!-- 9:10–9:20 · --> Whole class
+
+When you edit a **Google Doc** or a page in **Canvas**, what parts of the underlying system are hidden from you?
+
+What might we gain—or lose—by working more directly with:
+
+- files;
+- document structure;
+- revision history; and
+- the publishing process?
+
+---
+## From Week 2 to Week 3
+
+Last week:
+
+> **What may we build and publish?**
+
+Today:
+
+> **How can a set of plain-text files stored in a repository become a maintainable public website?**
+
+Next week, we will see these technologies working together in **CollectionBuilder**.
+
+---
+## Markdown: structured plain text
+### <!-- 9:20–9:40 -->
+
+Markdown is a lightweight markup language for adding **structure** to plain text.
+
+```markdown
+# A heading
+
+This is a paragraph with **bold** and *italic* text.
+
+- one item
+- another item
+
+[IU Libraries](https://libraries.indiana.edu/)
+```
+
+The source remains readable even before it is rendered.
+
+---
+## Plain text versus formatted documents
+
+<div class="columns">
+<div>
+
+### Word processor
+
+- Formatting is handled by the application.
+- Much of the document structure is hidden.
+- File format may be application-specific.
+- What you see is close to the final display.
+
+</div>
+<div>
+
+### Markdown
+
+- Formatting instructions are visible.
+- Structure is explicit in the text.
+- Files are simple, portable text.
+- Source and rendered display are distinct.
+
+</div>
+</div>
+
+---
+## Common Markdown
+
+```markdown
+# Heading 1
+## Heading 2
+
+**bold** and *italic*
+
+- unordered list
+- another item
+
+1. ordered item
+2. another item
+
+[link text](https://example.org/)
+
+![alt text](image.jpg)
+```
+
+Resource: [Markdown Guide: Basic Syntax](https://www.markdownguide.org/basic-syntax/)
+
+---
+## More Markdown
+
+### Table
+
+```markdown
+| Title | Date |
+|---|---:|
+| Item A | 1925 |
+| Item B | 1931 |
+```
+
+### Code
+
+````markdown
+`inline code`
+
+```html
+<p>A code block</p>
+```
+````
+
+---
+<!-- .slide: class="activity" -->
+## Quick Markdown check
+### <!-- within 9:20–9:40 --> Whole class
+
+What will each example do?
+
+```markdown
+## My Collection
+```
+
+```markdown
+- Photograph
+- Letter
+- Map
+```
+
+```markdown
+[Indiana University](https://iu.edu/)
+```
+
+And what is wrong here?
+
+```markdown
+[Indiana University](https://iu.edu/
+```
+
+---
+## The important idea
+
+You do **not** need to memorize every Markdown feature.
+
+The important conceptual point is:
+
+> **Human-readable plain text can also contain machine-readable instructions about document structure.**
+
+That makes Markdown useful well beyond simple note-taking.
+
+---
+## Git and GitHub: files plus history
+### <!-- 9:40–10:00 -->
+
+These terms are related, but they are **not synonyms**.
+
+- **Git** — version-control software
+- **Repository** — files plus their recorded history
+- **Commit** — a recorded set of changes
+- **GitHub** — a hosted platform for Git repositories, collaboration, and publishing
+
+Today we will use GitHub's web interface rather than learning command-line Git.
+
+---
+## A repository is more than a folder
+
+A repository contains files **and a history of changes to those files**.
+
+That history can help us answer:
+
+- What changed?
+- When did it change?
+- Who changed it?
+- Why was the change made?
+- What did the file look like before?
+
+For a long-lived digital project, those questions can matter a great deal.
+
+---
+## A commit is not just “Save”
+
+A useful commit records a meaningful change and gives it a description.
+
+Weak:
+
+> `changes`
+
+Better:
+
+> `Add project description and collection scope`
+
+A commit becomes part of the project's history.
+
+---
+<!-- .slide: class="activity" -->
+## Live demo: edit and commit
+### <!-- within 9:40–10:00 --> Instructor demonstration
+
+In a small GitHub repository:
+
+1. Open a Markdown file.
+2. Edit it in GitHub.
+3. Preview the change / diff.
+4. Write a meaningful commit message.
+5. Commit the change.
+6. Open the commit history.
+7. Compare the previous and current versions.
+
+As you watch: **what does GitHub record that an ordinary Save button does not?**
+
+---
+## Why might history matter?
+
+For a digital collection, we may want to trace changes to:
+
+- descriptive text;
+- metadata;
+- rights statements;
+- project documentation;
+- configuration;
+- interface text;
+- data corrections.
+
+Version history can support **accountability, collaboration, recovery, and maintenance**.
+
+---
+## From repository to website
+### <!-- 10:00–10:20 -->
+
+A browser ultimately receives files such as:
+
+- HTML
+- CSS
+- JavaScript
+- images
+- fonts and other assets
+
+But those files do not always have to be authored directly by hand.
+
+A site can be **built** from source files.
+
+---
+## Static and dynamic sites
+
+<div class="columns small">
+<div>
+
+### Static site
+
+Pages are generated **ahead of time**.
+
+The web server can deliver already-built HTML, CSS, images, and other files.
+
+Source may include Markdown, templates, configuration, and structured data.
+
+</div>
+<div>
+
+### Dynamic site
+
+Pages may be assembled **when requested**.
+
+Content may be retrieved from a database and combined with templates or application logic.
+
+Examples include many content-management systems and web applications.
+
+</div>
+</div>
+
+Neither architecture is inherently “better.” They solve different problems.
+
+---
+## Our conceptual workflow
+
+<div class="workflow">
+
+**Markdown**  
+↓  
+**GitHub repository**  
+↓  
+**commit + history**  
+↓  
+**site-building process**  
+↓  
+**HTML + CSS + assets**  
+↓  
+**GitHub Pages**  
+↓  
+**web browser**
+
+</div>
+
+---
+## GitHub Pages
+
+GitHub Pages is a publishing service that can serve a website associated with a GitHub repository.
+
+For today's purposes, remember:
+
+> **The repository is the project/source; the Pages site is the published result.**
+
+They are related, but they are not the same thing.
+
+Resource: [GitHub Pages documentation](https://docs.github.com/en/pages)
+
+---
+<!-- .slide: class="activity" -->
+## Live demo: source → published site
+### <!-- within 10:00–10:20 --> Instructor demonstration
+
+1. Open the demonstration site's **repository**.
+2. Open its corresponding **GitHub Pages site**.
+3. Make a visible change to a Markdown page.
+4. Commit it.
+5. Predict what should happen next.
+6. Refresh the published site after the build completes.
+
+**Question:** What happened between step 4 and step 6?
+
+---
+## Build time is part of the workflow
+
+A commit does not necessarily appear on the public site instantly.
+
+The publishing system may need to:
+
+1. detect the new commit;
+2. run the site-building process;
+3. generate updated output;
+4. deploy that output; and
+5. make it available to browsers.
+
+A delay is not necessarily an error.
+
+---
+## Break
+### <!-- 10:20–10:30 -->
+
+<!-- Please return by **10:30**. -->
+
+**Markdown → repository → commit/history → build → GitHub Pages → browser**
+
+---
+## CollectionBuilder as a case study
+### <!-- 10:30–10:50 -->
+
+CollectionBuilder brings several of today's ideas together in a digital-collection workflow.
+
+At a high level, a project includes:
+
+- files stored in a repository;
+- human-readable configuration/content;
+- structured collection data and metadata;
+- references to images or other digital objects;
+- version history; and
+- a static-site build that produces a public collection interface.
+
+Today: **recognition and orientation.**  
+Week 4: **working directly with CollectionBuilder.**
+
+---
+## Two views of one project
+
+<div class="columns">
+<div>
+
+### Public collection
+
+What a visitor encounters:
+
+- navigation
+- item pages
+- images
+- metadata display
+- search/browse features
+- interpretive content
+
+</div>
+<div>
+
+### Repository
+
+What project maintainers encounter:
+
+- folders and files
+- configuration
+- metadata/data
+- Markdown
+- documentation
+- commit history
+
+</div>
+</div>
+
+---
+<!-- .slide: class="activity" -->
+## Guided CollectionBuilder exploration
+### <!-- within 10:30–10:50 --> Whole class / pairs
+
+In the repository, look for evidence of things you now recognize:
+
+- Markdown files
+- folders/directories
+- commit history
+- configuration files
+- data/metadata files
+- documentation
+
+Do not worry yet about understanding every file.
+
+Resource: [CollectionBuilder](https://collectionbuilder.github.io/)
+
+---
+<!-- .slide: class="activity small" -->
+## What looks human? What looks machine?
+
+As you explore, consider:
+
+1. Which parts look intended for **humans to edit**?
+2. Which parts seem primarily intended for **software**?
+3. What advantages might this approach have for:
+   - preservation?
+   - portability?
+   - transparency?
+   - collaboration?
+4. What might be harder about this than using a conventional content-management system?
+
+---
+<!-- .slide: class="activity" -->
+## Hands-on: edit, commit, publish, update
+### <!-- 10:50–11:25 --> Pairs
+
+**Goal:** complete a small end-to-end publishing cycle **twice**.
+
+By the end, your pair should be able to show:
+
+- a Markdown source page;
+- at least **two commits** in its history; and
+- the corresponding **published GitHub Pages page**.
+
+Work in the designated practice repository/site.
+
+---
+<!-- .slide: class="activity" -->
+## Part 1: Create or edit Markdown
+### <!-- 10:55–11:05 -->
+
+Edit a Markdown page so that it includes:
+
+- a heading;
+- a short paragraph;
+- a list;
+- emphasis;
+- a link;
+- an image;
+- a small table; and
+- a short code block.
+
+**Preview the Markdown before committing.**
+
+---
+<!-- .slide: class="activity" -->
+## Part 2: Commit and publish
+### <!-- 11:05–11:15 -->
+
+1. Review your changes.
+2. Write a **descriptive commit message**.
+3. Commit the changes.
+4. Open the repository's published GitHub Pages site.
+5. Locate your rendered page.
+6. Verify that the published result matches what you intended.
+
+If it has not appeared yet, ask: **where in the workflow are we?**
+
+---
+<!-- .slide: class="activity" -->
+## Troubleshooting questions
+
+If something does not look right, work through the chain:
+
+- Which **file** did you change?
+- Did you **preview** it?
+- Did you **commit** the change?
+- Is the commit visible in the **history**?
+- Has the site **rebuilt** yet?
+- Are you looking at the **source repository** or the **published site**?
+- Is the browser showing an older cached version?
+
+Try to identify the stage before changing things at random.
+
+---
+<!-- .slide: class="activity" -->
+## Part 3: Update and observe
+### <!-- 11:15–11:25 -->
+
+Make a second, small change:
+
+- correct a sentence;
+- add a list item;
+- change a heading; or
+- replace a link.
+
+Then:
+
+1. Commit it with a **new message**.
+2. Inspect the commit history and/or diff.
+3. Wait for the site to update.
+4. Verify the second change on the published page.
+
+---
+<!-- .slide: class="activity" -->
+## Finished early?
+
+Compare your two commits.
+
+Be ready to explain:
+
+> **What does the repository's history record that the published web page itself does not show?**
+
+Then explore the CollectionBuilder repository and identify files or directories that appear to control:
+
+- content;
+- metadata;
+- configuration; or
+- presentation.
+
+---
+<!-- .slide: class="activity" -->
+## Debrief: reconstruct the workflow
+### <!-- 11:25–11:38 --> Whole class
+
+Without looking back at the earlier diagram, what happened?
+
+1. We edited a __________ source file.
+2. We __________ the rendered Markdown.
+3. We __________ the change to the repository.
+4. Git recorded the change in the project's __________.
+5. GitHub Pages __________ / published the site.
+6. A __________ displayed the resulting web page.
+7. We changed the source again and created another recorded version.
+
+---
+## What became visible?
+
+Return to our opening comparison with Google Docs and Canvas.
+
+- What became more visible in today's workflow?
+- What extra responsibility did that visibility create?
+- Why might a digital-library project value files that can be read **outside the software that publishes them**?
+- What could go wrong when several people edit the same project?
+
+---
+## Collaboration adds another layer
+
+When several people work in the same repository, we may need ways to manage simultaneous or proposed changes.
+
+You may encounter concepts such as:
+
+- conflicting changes;
+- branches;
+- pull requests; and
+- review workflows.
+
+For now, the key idea is simpler: **version control makes changes explicit and traceable.**
+
+---
+<!-- .slide: class="activity" -->
+## Individual reflection / exit write
+### <!-- 11:38–11:43 --> Individual
+
+Write brief responses:
+
+1. In your own words, what is the relationship among **Markdown, a GitHub repository, a commit, and a GitHub Pages site**?
+2. Name **one advantage** of this workflow for a digital collection.
+3. Name **one part** of today's workflow that is still unclear to you.
+
+You can use this as a starting point for the approximately **300-word Canvas reflection** associated with this week's work.
+
+---
+## The central idea
+### <!-- 11:43–11:45 -->
+
+Today's technologies are not isolated skills.
+
+Together, they form part of the infrastructure for building and maintaining digital collections:
+
+> **structured plain text + versioned files + reproducible publishing**
+
+You have now seen CollectionBuilder from the outside and briefly inspected its underlying repository.
+
+---
+## Looking ahead: CollectionBuilder
+
+Next week: **CollectionBuilder Introduction**
+
+We will move from recognizing the architecture to working more directly with CollectionBuilder.
+
+The concepts from today will give us a vocabulary for understanding what is happening underneath the interface.
+
+---
+## Week 3 resources
+
+- [Markdown Guide: Basic Syntax](https://www.markdownguide.org/basic-syntax/)
+- [GitHub: About repositories](https://docs.github.com/en/repositories/creating-and-managing-repositories/about-repositories)
+- [GitHub: About commits](https://docs.github.com/en/pull-requests/committing-changes-to-your-project/creating-and-editing-commits/about-commits)
+- [GitHub Pages documentation](https://docs.github.com/en/pages)
+- [CollectionBuilder](https://collectionbuilder.github.io/)
+
+				</textarea>
+				</section>
+			</div>
+		</div>
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script>
+			Reveal.initialize({
+				hash: true,
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+			});
+		</script>
+	</body>
+</html>
