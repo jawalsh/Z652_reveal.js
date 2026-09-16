@@ -1,0 +1,703 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Z652 Week 4: CollectionBuilder Introduction</title>
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/jawalsh.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+		<style type="text/css">
+			.reveal img {max-height: 70%; max-width: 60%;}
+			.reveal .small {font-size: 0.72em;}
+			.reveal .smaller {font-size: 0.60em;}
+			.reveal .columns {display: flex; gap: 2em; text-align: left;}
+			.reveal .columns > div {flex: 1;}
+			.reveal .activity {border-left: 0.18em solid #9b1c31; padding-left: 0.7em;}
+			.reveal .workflow {font-size: 1.05em; line-height: 1.6; text-align: center;}
+			
+			.reveal .columns h3 {
+	margin-top: 0.7em;
+	margin-bottom: 0.2em;
+}
+
+.reveal .columns h3:first-child {
+	margin-top: 0;
+}
+
+.reveal .columns h3 + ul {
+	margin-top: 0;
+}
+		</style>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section data-markdown>
+				<textarea data-template>
+## Z652: Digital Libraries
+CollectionBuilder Introduction
+
+John Walsh  
+[jawalsh@iu.edu](mailto:jawalsh@iu.edu)
+
+---
+## Today
+
+- CollectionBuilder as a digital-collection framework
+- Data, content, configuration, and presentation
+- Anatomy of a CollectionBuilder repository
+- Metadata → object → interface
+- Hands-on: create → configure → publish → change
+- Bridge to metadata
+
+<!-- **Break: 10:15–10:30** -->
+
+---
+## Learning objectives
+
+By the end of class, you should be able to:
+
+- Explain the basic purpose and architecture of **CollectionBuilder**.
+- Identify the major components of a CollectionBuilder repository.
+- Explain how **metadata, digital objects, configuration, and templates** work together.
+- Navigate and make basic changes to a CollectionBuilder project on GitHub.
+- Explain the functional role of `objectid`.
+- Build and publish a basic CollectionBuilder site with GitHub Pages.
+- Connect CollectionBuilder to the static-web workflow from Week 3.
+
+---
+## From Week 3 to Week 4
+### <!-- 9:10–9:20 -->
+
+Last week:
+
+<div class="workflow">
+
+**Markdown**  
+↓  
+**Git repository**  
+↓  
+**GitHub**  
+↓  
+**GitHub Pages**  
+↓  
+**public website**
+
+</div>
+
+Today, we build a **digital collection** on top of that workflow.
+
+---
+<!-- .slide: class="activity" -->
+## Opening recall
+### Whole class
+
+Before we add anything new:
+
+- What does **GitHub** do?
+- What does **GitHub Pages** do?
+- What makes a site **static**?
+- Where did the content of last week's website actually live?
+
+Then consider:
+
+> **What makes a digital collection different from the simple static website we made last week?**
+
+---
+## CollectionBuilder extends the workflow
+
+<div class="workflow">
+
+**Metadata (CSV)**  
+↓  
+**Digital objects → CollectionBuilder ← Configuration**  
+↓  
+**Jekyll**  
+↓  
+**GitHub Pages**  
+↓  
+**digital collection**
+
+</div>
+
+> CollectionBuilder is not replacing last week's workflow. It is building a digital-collection system **on top of it**.
+
+---
+<!-- .slide: class="activity" -->
+## Where is all of this coming from?
+### Whole class
+
+Think about the CollectionBuilder examples you explored before class.
+
+Which features seem as though they must be generated from **structured data**?
+
+- item pages?
+- browse?
+- search?
+- subjects/facets?
+- maps?
+- timelines?
+- visualizations?
+
+Our organizing question for today:
+
+> **Where is all of this coming from?**
+
+---
+## What is CollectionBuilder?
+### <!-- 9:20–9:35 -->
+
+CollectionBuilder is an **open-source framework for creating digital collection and exhibit websites**.
+
+For our purposes, its important characteristics are:
+
+- static-web methodology;
+- repository-based rather than database/CMS-based architecture;
+- structured collection data;
+- configuration that remains visible and editable;
+- digital objects connected to descriptive records;
+- a public interface generated from those components.
+
+Resource: [CollectionBuilder](https://collectionbuilder.github.io/)
+
+---
+## Four ways to think about the project
+
+<div class="columns small">
+<div>
+
+### Data
+
+- CSV metadata
+- structured values describing collection objects
+
+### Content
+
+- images
+- PDFs/documents
+- audio/video
+- contextual or interpretive content
+
+</div>
+<div>
+
+### Configuration
+
+- collection identity
+- navigation
+- metadata-field configuration
+- display behavior
+
+### Presentation
+
+- templates/layouts
+- CSS
+- generated interface elements
+
+</div>
+</div>
+
+The boundaries can be fuzzy. The categories give us a useful **conceptual model**.
+
+---
+<!-- .slide: class="activity" -->
+## Public site: what do you see?
+### Live exploration
+
+Open a CollectionBuilder example.
+
+What makes this look like a **digital collection** rather than a simple website?
+
+As we identify features, try classifying what might be behind them:
+
+**DATA | CONTENT | CONFIGURATION | PRESENTATION**
+
+---
+## Anatomy of a CollectionBuilder repository
+### <!-- 9:35–9:55 -->
+
+```text
+repository
+│
+├── _config.yml
+├── _data/
+│   └── metadata.csv
+├── objects/
+├── pages/
+├── _includes/
+├── _layouts/
+└── assets/
+```
+
+Today we care more about **what these pieces do** than about understanding every file.
+
+---
+## What do the pieces do?
+
+| Component | Basic role |
+|---|---|
+| `_data/metadata.csv` | Describes collection items |
+| `objects/` | Contains or connects to digital objects |
+| `_config.yml` | Basic site/collection configuration |
+| `pages/` | Content/navigation pages |
+| `_layouts/` / `_includes/` | Instructions for constructing pages |
+| `assets/` | CSS, JavaScript, images, etc. |
+
+> We are learning to **use CollectionBuilder**, not to develop CollectionBuilder itself.
+
+---
+<!-- .slide: class="activity" -->
+## Repository scavenger questions
+### Whole class
+
+In the repository, identify:
+
+1. Where is the collection **metadata**?
+2. Where are the **digital objects**?
+3. Where is basic site **configuration**?
+4. What appears to control **presentation**?
+5. Which files look like things a collection manager would normally edit?
+6. Which look like underlying infrastructure you probably should **not casually edit**?
+
+As we move between repository and site, keep asking:
+
+> **Where does this thing on the website come from?**
+
+---
+## Metadata → object → interface
+### <!-- 9:55–10:10 -->
+
+A CSV gives us a simple structured model:
+
+```text
+one row    = one item
+one column = one field
+one cell   = one value
+```
+
+A metadata record might contain:
+
+```text
+objectid: obj001
+title: ...
+creator: ...
+date: ...
+subject: ...
+```
+
+CollectionBuilder uses those structured values to construct and organize the interface.
+
+---
+## Follow one record
+
+<div class="workflow">
+
+**metadata.csv**  
+`objectid: obj001`  
+`title: ...`  
+`creator: ...`  
+`date: ...`  
+`subject: ...`  
+↓  
+**CollectionBuilder**  
+↓  
+**item page + discovery interfaces**
+
+</div>
+
+Open one metadata row and its corresponding item page side by side.
+
+---
+## `objectid`: more than description
+
+Each item needs a **unique identifier**.
+
+In CollectionBuilder, `objectid` helps connect:
+
+- a metadata record;
+- its digital object; and
+- other parts of the generated collection.
+
+> `objectid` is not merely descriptive metadata. It performs a **functional role** in connecting the record to the object.
+
+---
+<!-- .slide: class="activity" -->
+## What can structured metadata do?
+### Whole class
+
+Look at an item page, browse page, search, subjects/facets, map, or timeline.
+
+Ask:
+
+> **What can this interface do only because the underlying metadata is structured consistently?**
+
+Today, metadata is something that **makes the system work**.
+
+Next week, we ask:
+
+> **What is metadata, and how should we design it?**
+
+---
+## Today's hands-on goal
+### <!-- 10:10–10:15 -->
+
+By the end of the lab, you should have:
+
+- your own basic CollectionBuilder repository;
+- a site published through GitHub Pages;
+- an understanding of where its major pieces live; and
+- at least **one change** whose effect you can observe on the published site.
+
+Workflow:
+
+> **create → configure → publish → explore → change → inspect**
+
+---
+## Break
+### <!-- 10:15–10:30 -->
+
+<!-- Please return by **10:30**. -->
+
+**metadata + objects + configuration + templates → digital collection**
+
+---
+<!-- .slide: class="activity" -->
+## Create a CollectionBuilder project
+### <!-- 10:30–10:45 --> Individual work; help your neighbors
+
+1. Open the CollectionBuilder template.
+2. Create/copy the repository.
+3. Give the repository an appropriate name.
+4. Confirm that the project files appear.
+5. Locate `_config.yml`.
+6. Locate `_data`.
+7. Locate `objects`.
+
+We will pause after each major step so the class stays reasonably synchronized.
+
+---
+<!-- .slide: class="activity" -->
+## Checkpoint: find the pieces
+
+Before moving on, everyone should have a CollectionBuilder repository.
+
+Be able to answer:
+
+- Where is my **metadata**?
+- Where would my **digital objects** go?
+- Where would I change basic information about my **collection**?
+
+If you are stuck, work with a neighbor before changing things at random.
+
+---
+## Next: configuring the collection
+
+### A little YAML
+
+Configuration files require exact syntax.
+
+This works:
+
+```yaml
+title: My Digital Collection
+```
+
+This does not:
+
+```yaml
+title My Digital Collection
+```
+
+Indentation and punctuation can matter too.
+
+You do not need to become a YAML expert today—but when something breaks, **syntax is one place to look**.
+
+
+---
+<!-- .slide: class="activity" -->
+## Configure the collection
+### <!-- 10:45–11:00 -->
+
+Make a few simple configuration changes, such as:
+
+- collection title;
+- organization/author;
+- description;
+- other basic site information.
+
+Then **commit** the changes.
+
+Question:
+
+> We changed **configuration**, not collection data. What's the distinction?
+
+---
+<!-- .slide: class="activity" -->
+## Publish with GitHub Pages
+### <!-- 11:00–11:15 -->
+
+1. Open repository settings.
+2. Locate GitHub Pages.
+3. Enable the appropriate publishing mechanism.
+4. Wait for the build.
+5. Visit the published site.
+
+While the build runs, ask:
+
+> **How is this similar to what we did in Week 3?**
+
+---
+## What is happening during the build?
+
+<div class="workflow">
+
+**repository**  
+↓  
+**GitHub / Jekyll build**  
+↓  
+**generated HTML + CSS + JavaScript**  
+↓  
+**GitHub Pages**  
+↓  
+**browser**
+
+</div>
+
+A delay does not necessarily mean something has gone wrong.
+
+---
+<!-- .slide: class="activity" -->
+## Publishing checkpoint
+
+Everyone should now have:
+
+- a repository;
+- a configured CollectionBuilder project;
+- a GitHub Pages deployment underway or completed; and
+- the URL for the resulting site.
+
+If a build fails, we may use it as a class troubleshooting example.
+
+> **A broken build can tell us something about how the system works.**
+
+---
+<!-- .slide: class="activity smaller" -->
+## Explore your own collection
+### <!-- 11:15–11:27 --> Scavenger hunt
+
+Move back and forth between your **repository** and **published site**. Find:
+
+1. the title in the interface and its source in the repository;
+2. an item page and its corresponding metadata row;
+3. the `objectid`;
+4. the digital object associated with that record;
+5. a browse or search feature that uses metadata;
+6. information present in the metadata but not obviously displayed on the item page.
+
+The goal is to see **relationships**, not merely memorize filenames.
+
+---
+<!-- .slide: class="activity" -->
+## Controlled experiment: change the collection
+### <!-- 11:27–11:37 -->
+
+Choose **one existing item** and change one obvious metadata value:
+
+- title;
+- creator;
+- description; or
+- subject.
+
+Before committing:
+
+> **Where do you expect this change to appear on the site?**
+
+Then commit, wait for the rebuild, and inspect the result.
+
+---
+<!-- .slide: class="activity" -->
+## What changed?
+
+After the rebuild:
+
+1. Refresh the item page.
+2. Find the value you changed.
+3. Ask: **What changed?**
+4. Then ask: **What else changed?**
+
+A changed title might affect an item page **and** browse display.
+
+A changed subject might affect discovery or navigation.
+
+> **edit → commit → build → publish → inspect**
+
+---
+<!-- .slide: class="activity small" -->
+## Stretch activity: add an item
+### <!-- 11:37–11:41 --> Optional
+
+If your basic site is working:
+
+1. Add the provided digital object.
+2. Add its prepared metadata row.
+3. Assign a unique `objectid`.
+4. Commit.
+5. Let the site rebuild.
+6. Locate the new item.
+
+Key question:
+
+> **What had to exist before CollectionBuilder could recognize this as a new item?**
+
+Getting a functioning site takes priority over completing this activity.
+
+---
+<!-- .slide: class="activity" -->
+## What actually makes the collection?
+### <!-- 11:41–11:44 --> Whole class
+
+Classify what we encountered:
+
+**DATA | CONTENT | CONFIGURATION | PRESENTATION**
+
+- metadata CSV
+- JPEG
+- `objectid`
+- collection title
+- `_config.yml`
+- Markdown About page
+- item layout
+- search
+- browse
+- CSS
+- subject terms
+
+Some answers may reasonably provoke disagreement.
+
+---
+## Website or digital library?
+
+> **What makes this a digital library rather than just a website containing some pictures?**
+
+Consider:
+
+- structured description;
+- relationships among objects and metadata;
+- discovery;
+- organization;
+- contextualization;
+- consistent presentation;
+- collection-level structure.
+
+---
+## What doesn't CollectionBuilder automatically solve?
+
+A functioning CollectionBuilder site does not by itself solve every digital-library problem:
+
+- preservation;
+- authority control;
+- persistent identifiers;
+- rights management;
+- long-term stewardship;
+- metadata quality;
+- interoperability.
+
+We will return to several of these issues later in the semester.
+
+---
+## The Week 3 → Week 4 progression
+
+<div class="workflow">
+
+**Week 3**  
+files + configuration → **static website**
+
+<br>
+
+**Week 4**  
+metadata + objects + configuration + templates → **digital collection**
+
+</div>
+
+The technology is becoming more specialized, but the underlying workflow should now look familiar.
+
+---
+## Looking ahead: Metadata I
+### <!-- 11:44–11:45 -->
+
+We have spent much of today relying on `metadata.csv`.
+
+But how did someone decide that **these should be the columns**?
+
+```text
+title
+creator
+date
+description
+subject
+format
+identifier
+rights
+```
+
+Why these? Why not others? What exactly belongs in each one?
+
+---
+## Next week's problem
+
+What should `creator` mean?
+
+What should a `date` look like?
+
+Is `subject` free text?
+
+If every collection invents its own fields, can systems exchange records?
+
+> **Week 5: Metadata Fundamentals and Dublin Core**
+
+Dublin Core gives us one response to a problem we have now actually encountered.
+
+---
+<!-- .slide: class="activity" -->
+## Exit check
+### Submit after class if assigned
+
+1. **Where does CollectionBuilder get information about an item?**
+2. **What is the purpose of `objectid`?**
+3. **Name one thing you changed in the repository and describe what effect it had on the published site.**
+
+Before next week, make sure your CollectionBuilder site is successfully published and that you can find both the **repository** and the **public site**.
+
+---
+## Week 4 resources
+
+- [CollectionBuilder](https://collectionbuilder.github.io/)
+- [CollectionBuilder documentation](https://collectionbuilder.github.io/cb-docs/)
+- [CollectionBuilder-GH documentation](https://collectionbuilder.github.io/cb-docs/docs/gh/)
+- [CollectionBuilder-GH repository](https://github.com/CollectionBuilder/collectionbuilder-gh)
+- [CollectionBuilder examples](https://collectionbuilder.github.io/cb-examples/)
+- [GitHub Pages documentation](https://docs.github.com/en/pages)
+
+				</textarea>
+				</section>
+			</div>
+		</div>
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script>
+			Reveal.initialize({
+				hash: true,
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+			});
+		</script>
+	</body>
+</html>
