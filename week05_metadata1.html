@@ -108,6 +108,7 @@ This week we step back and ask:
 > **How should we design the metadata itself?**
 
 ---
+<!--
 ## A basic metadata model
 
 ```text
@@ -125,6 +126,74 @@ value:   Students outside the Indiana Memorial Union
 ```
 
 > **record → element → value**
+
+-->
+## A basic metadata model
+
+<table style="font-size: 0.68em;">
+
+<thead>
+<tr>
+<th>objectid</th>
+<th>title</th>
+<th style="background-color: #ddd;">creator</th>
+<th>date</th>
+<th>subject</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>obj001</td>
+<td>Students outside the IMU</td>
+<td style="background-color: #ddd;">Jane Smith</td>
+<td>1952</td>
+<td>Students</td>
+</tr>
+<tr style="outline: 4px solid #9b1c31;">
+<td>obj002</td>
+<td>Homecoming parade</td>
+<td style="background-color: #ddd;">John Doe</td>
+<td style="background-color: #f2d675; font-weight: bold;">1961</td>
+<td>Parades</td>
+</tr>
+<tr>
+<td>obj003</td>
+<td>Sample Gates</td>
+<td style="background-color: #ddd;">Jane Smith</td>
+<td>1985</td>
+<td>Buildings</td>
+</tr>
+</tbody>
+
+</table>
+
+<div class="columns" style="margin-top: 1em;">
+
+<div>
+
+### Row = record
+
+Everything describing one item.
+
+</div>
+
+<div>
+
+### Column = element / field
+
+One category of information.
+
+</div>
+
+<div>
+
+### Cell = value
+
+One particular piece of metadata.
+
+</div>
+
+</div>
 
 ---
 ## What is metadata?
