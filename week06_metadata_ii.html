@@ -1,0 +1,726 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Z652 Week 6: Metadata II</title>
+  <link rel="stylesheet" href="dist/reset.css">
+  <link rel="stylesheet" href="dist/reveal.css">
+  <link rel="stylesheet" href="dist/theme/jawalsh.css">
+  <link rel="stylesheet" href="plugin/highlight/monokai.css">
+  <style type="text/css">
+    .reveal img {max-height: 70%; max-width: 60%;}
+    .reveal .small {font-size: 0.72em;}
+    .reveal .smaller {font-size: 0.60em;}
+    .reveal .columns {display: flex; gap: 2em; text-align: left;}
+    .reveal .columns > div {flex: 1;}
+    .reveal .activity {text-align: left;}
+    .reveal .activity h2 {text-align: center;}
+    .reveal .workflow {font-size: 0.8em; text-align: center;}
+    .reveal table {font-size: 0.72em;}
+    .reveal .tight li {margin-bottom: 0.2em;}
+  </style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section data-markdown>
+<textarea data-template>
+
+## Z652: Digital Libraries
+### Metadata II
+Controlled Vocabularies, Value Standards, and Metadata Application Profiles
+
+John Walsh  
+[jawalsh@iu.edu](mailto:jawalsh@iu.edu)
+
+---
+
+## Today
+
+- Finish our Week 5 metadata-design activity
+- Why metadata **values** need rules
+- Controlled vocabularies and authority control
+- Encoding schemes / value standards
+- Content guidelines
+- Metadata Application Profiles (MAPs)
+- Begin your own MAP
+
+---
+
+## Learning objectives
+
+By the end of class, you should be able to:
+
+- distinguish three ways of controlling metadata values
+- choose appropriate value rules for common fields
+- explain what a MAP documents
+- specify obligation, cardinality, and value rules
+- begin a MAP for your CollectionBuilder project
+
+---
+
+## Where we left off
+
+Last week:
+
+**record → elements/fields → values**
+
+plus local decisions about:
+
+- **obligation**: required / recommended / optional
+- **cardinality**: one / multiple values
+
+Today we add another question:
+
+> What counts as a **valid value**?
+
+---
+
+## Quick retrieval
+
+What is an **element**?
+
+What is a **value**?
+
+What is **obligation**?
+
+What is **cardinality**?
+
+---
+<!-- .slide: class="activity" -->
+
+## Carryover activity: Build a metadata record
+
+### In groups — 15 minutes
+
+For your object, identify **6–10 useful fields**.
+
+For each:
+
+| Element / field | Example value | Obligation | Cardinality |
+| --- | --- | --- | --- |
+|  |  | R / Rec / O | One / Multiple |
+
+Be ready to explain **one decision your group debated or had difficulty with**.
+
+---
+
+## Object A: IU Archives photograph
+
+<div class="columns">
+<div>
+
+![](images/P0051710.jpg)
+
+</div>
+<div class="small">
+
+**Students walking toward IMU**  
+September 13, 1965
+
+Indiana University Archives Photograph Collection  
+P0051710
+
+</div>
+</div>
+
+---
+
+## Object A: information supplied
+
+<div class="small">
+
+Black-and-white photograph of students walking toward the Indiana Memorial Union, Indiana University Bloomington; taken **September 13, 1965** by the **IU News Bureau**; Kodak Tri-X Pan safety film; donor image number **Frame 2**; series **“Groups,”** subseries **“Freshmen on campus”**; Archives Photograph Collection; held by **Indiana University Archives, Bloomington**; copyright Indiana University; accession **99/075**; source identifier **P0051710**; supplied title **“Students walking toward IMU.”**
+
+</div>
+
+### What should we record—and where?
+
+---
+
+## Object B: French postcard
+
+<div class="columns">
+<div>
+
+![](images/image_georges_clignancourt_associes_635._montmartre_2021.0.429_1922880.jpg)
+
+</div>
+<div>
+
+![](images/image_georges_clignancourt_associes_635._montmartre_2021.0.429_1922883.jpg)
+
+</div>
+</div>
+
+<div class="smaller">
+
+*635. Montmartre — Passage de l'Elysée des Beaux-Arts*  
+Musée Carnavalet, Histoire de Paris — 2021.0.429 — CC0
+
+</div>
+
+---
+
+## Object B: questions
+
+What information should we record?
+
+Which Dublin Core elements might we use?
+
+What do we do with:
+
+- the postcard publisher/photographer?
+- the handwritten message and its writer?
+- the recipient?
+- publication date vs. message/postmark date?
+- historical and current place names?
+- stamp/postmark?
+
+There may be more than one defensible answer.
+
+---
+
+## Compare your records
+
+Where did groups differ?
+
+- Which fields did you include?
+- Which did you require?
+- Which were repeatable?
+- Where was Dublin Core too broad?
+- Which information did you leave out?
+
+### And now: compare the **values**
+
+---
+
+## Same information?
+
+### Date
+
+- `September 13, 1965`  
+- `9/13/65`  
+- `1965-09-13`
+
+### Object type
+
+- `photo`  
+- `photograph`  
+- `black-and-white photograph`  
+- `Still Image`
+
+---
+
+## Same place?
+
+`Bloomington`
+
+`Bloomington, Indiana`
+
+`Bloomington (Ind.)`
+
+an identifier for **Bloomington, Indiana** in a geographic authority
+
+### Why should we care?
+
+---
+
+## Why value consistency matters
+
+- searching
+- browsing and faceting
+- sorting
+- aggregation
+- machine processing
+- interoperability
+- maintaining consistency as a collection grows
+
+> Choosing the right **field** does not guarantee useful metadata.
+
+---
+
+## Week 5 → Week 6
+
+<div class="workflow">
+
+**What information do we record?**  
+↓  
+**Which element/field?**  
+↓  
+**Required? Repeatable?**  
+↓  
+**What values are allowed?**  
+↓  
+**How should those values be recorded?**
+
+</div>
+
+---
+
+## Controlled vocabulary
+
+A **controlled vocabulary** is a deliberately managed set of terms used consistently to represent concepts or entities.
+
+It helps address:
+
+- synonyms
+- variant names
+- spelling / word-form variation
+- ambiguity
+- inconsistent terminology
+
+---
+
+## Preferred and variant terms
+
+A vocabulary may establish a **preferred term** while recording other forms as variants.
+
+For example:
+
+**Preferred:** `automobiles`  
+**Variant:** `cars`
+
+Users may search in different ways; the metadata can still be normalized.
+
+---
+
+## Authority control
+
+Related problem, especially for **named entities**:
+
+- people
+- organizations
+- places
+
+One entity may have:
+
+- multiple names
+- changed names
+- different spellings
+- identical names shared by different entities
+
+Authority control connects those variants to an identified entity.
+
+---
+
+## Getty vocabularies
+
+### [AAT — Art & Architecture Thesaurus](https://www.getty.edu/research/tools/vocabularies/aat/)
+Concepts: object/work types, materials, processes, styles, and more
+
+### [TGN — Thesaurus of Geographic Names](https://www.getty.edu/research/tools/vocabularies/tgn/)
+Places, names, geographic hierarchy
+
+### [ULAN — Union List of Artist Names](https://www.getty.edu/research/tools/vocabularies/ulan/)
+People and corporate bodies; name variants and identity information
+
+---
+<!-- .slide: class="activity" -->
+
+## What did you find?
+
+### 5 minutes
+
+Turn to someone near you.
+
+For the vocabulary you explored:
+
+1. What does it control?
+2. What did a record contain besides the preferred term/name?
+3. What metadata field could it help you populate?
+4. Would it actually be useful for your project?
+
+---
+<!-- .slide: class="small" -->
+
+## Established or local?
+
+### Established vocabulary
+
+Useful when:
+
+- it covers your domain well
+- interoperability matters
+- stable identifiers / maintained terms help
+
+### Local vocabulary
+
+Useful when:
+
+- your collection has specialized concepts
+- you need a small finite set of project categories
+- local distinctions matter
+
+**Local does not have to mean uncontrolled.**
+
+---
+
+## Not every field needs a vocabulary
+
+Would you use a controlled vocabulary for:
+
+- subject?
+- creator?
+- type?
+- date?
+- description?
+- identifier?
+
+Different fields need different kinds of rules.
+
+---
+
+## Three ways to control values
+
+1. **Controlled vocabulary**  
+   Which terms/values may I choose?
+
+2. **Encoding scheme / value standard**  
+   In what standardized form should I represent the value?
+
+3. **Content guideline**  
+   What should I record, and how should I formulate it?
+
+---
+
+## 1. Controlled vocabulary
+
+### Which terms/values may I choose?
+
+Examples:
+
+- subjects from an approved list
+- object types from AAT
+- places identified through TGN
+- a local vocabulary of collection categories
+
+The goal is **consistent choice of terms**.
+
+---
+
+## 2. Encoding scheme / value standard
+
+### How should this kind of value be represented?
+
+Examples:
+
+- date: `1965-09-13`
+- language: a consistent language-code scheme
+- coordinates: a defined numeric representation
+
+The goal is **predictable representation**.
+
+---
+
+## 3. Content guideline
+
+### What should I record, and how?
+
+**Title:**  
+“Transcribe a supplied title exactly. If no title is supplied, devise a concise descriptive title.”
+
+**Creator:**  
+“Record the person or organization primarily responsible for the intellectual or artistic content. Do not record donors here.”
+
+---
+
+## Content guideline: another example
+
+### Description
+
+“Write 1–3 sentences describing visually or intellectually significant content not already evident from the title.”
+
+A content guideline is not necessarily a list of allowed words.
+
+It is an **instruction to the metadata creator**.
+
+---
+<!-- .slide: class="activity" -->
+
+## Quick classification
+
+Which kind of rule is each?
+
+1. `YYYY-MM-DD`
+2. Choose subjects from a list of 20 project terms
+3. “Use the title appearing on the item; devise one only when none exists”
+4. Getty AAT
+5. “Use sentence case and omit final punctuation”
+
+---
+<!-- 
+## Answers
+
+1. `YYYY-MM-DD` → **encoding/value standard**
+2. list of 20 project terms → **controlled vocabulary**
+3. title instruction → **content guideline**
+4. Getty AAT → **controlled vocabulary**
+5. sentence case / punctuation → **content guideline**
+
+-->
+
+## A field can use several rules
+
+### `date`
+
+**Content guideline:** record date of creation, not digitization  
+**Encoding rule:** use `YYYY-MM-DD` when a full date is known
+
+### `subject`
+
+**Controlled vocabulary:** approved subject terms  
+**Content guideline:** assign 2–6 significant topics
+
+---
+
+## Break
+
+### 10:25–10:40
+
+---
+
+## How much control?
+
+| Field | Likely approach |
+| --- | --- |
+| Subject | Vocabulary + guideline |
+| Date | Encoding rule + guideline |
+| Description | Free text + guideline |
+| Type | Small controlled vocabulary |
+| Creator | Authority control when practical + guideline |
+| Identifier | Local/system rule |
+
+**More control is not automatically better.**
+
+---
+
+## Metadata Application Profile
+
+A **MAP** documents how a particular project or community uses metadata.
+
+It turns a general schema/element set into **local operational rules**.
+
+> A MAP is not just a list of columns.
+
+---
+
+## What does a MAP specify?
+
+| Component | Question |
+| --- | --- |
+| Element / field | What information? |
+| Definition | What exactly does it mean here? |
+| Obligation | Required / recommended / optional? |
+| Cardinality | One or multiple? |
+| Controlled vocabulary | Approved values? |
+| Encoding/value standard | Standard representation? |
+| Content guideline | Instructions for entry? |
+| Example | What does a valid value look like? |
+
+---
+
+## Sample MAP row: `date`
+
+<div class="small">
+
+| Component | Rule |
+| --- | --- |
+| Definition | Date original resource was created/published—not digitization date |
+| Obligation | Recommended |
+| Cardinality | One |
+| Vocabulary | None |
+| Encoding | `YYYY`, `YYYY-MM`, or `YYYY-MM-DD` |
+| Guideline | Use most specific known date; do not invent missing month/day |
+| Example | `1965-09-13` |
+
+</div>
+
+---
+
+## Sample MAP row: `subject`
+
+<div class="small">
+
+| Component | Rule |
+| --- | --- |
+| Definition | Topics, people, places, or concepts substantially represented |
+| Obligation | Recommended |
+| Cardinality | Multiple |
+| Vocabulary | Project vocabulary and/or named external vocabulary |
+| Encoding | None unless identifiers/URIs are specified |
+| Guideline | Assign 2–6 specific, significant terms |
+| Example | `Indiana Memorial Union; Students` |
+
+</div>
+
+---
+
+## Why write all this down?
+
+Imagine you hand your CSV to a new project assistant.
+
+They see a column called:
+
+`date`
+
+What do they still need to know?
+
+---
+
+## `date` is not self-documenting
+
+- Date of what?
+- Is it required?
+- Can there be more than one?
+- How precise must it be?
+- What if only the year is known?
+- What if the date is uncertain?
+- What format should be used?
+
+A field name is only the beginning.
+
+---
+
+## CollectionBuilder metadata
+
+Think about two kinds of fields:
+
+### Descriptive / intellectual
+
+`title` · `creator` · `date` · `subject` · `description`
+
+### Project / functional
+
+Fields used by your CollectionBuilder implementation to identify, connect, locate, display, or process objects
+
+Both need documentation—but they serve different purposes.
+
+---
+
+## A useful question
+
+For every field in your project:
+
+> Is this field here because it **describes the resource**, because the **system needs it**, or both?
+
+Your MAP should document the fields your actual collection needs.
+
+---
+<!-- .slide: class="activity" -->
+
+## Start your MAP
+
+### Individual work — about 18 minutes
+
+Draft **at least five substantive rows**:
+
+- title/name
+- date, if relevant
+- subject/topic, if relevant
+- a field especially important to your collection
+- a CollectionBuilder/project-functional field
+
+---
+<!-- .slide: class="activity" -->
+
+## For each field, decide
+
+1. Field name
+2. Definition
+3. Obligation
+4. Cardinality
+5. Controlled vocabulary / value standard, if any
+6. Content guideline
+7. Example
+
+### Test
+
+Could another person create a valid value **without asking you what you meant**?
+
+---
+
+## Watch for these problems
+
+- “Creator = the creator”
+- everything is **Required**
+- single-value fields that obviously need repetition
+- “controlled vocabulary” with no actual vocabulary
+- vague rules: “Enter the date correctly”
+- examples that violate the stated rule
+- forgetting project/system fields
+
+---
+
+## Week 7: Metadata Studio
+
+Bring a **substantive working draft** of your MAP.
+
+It is **not a graded draft**.
+
+We will:
+
+- peer review the rules
+- create/test sample metadata
+- identify ambiguities and missing cases
+- revise before final submission
+
+---
+
+## The Week 7 test
+
+> Could another person use your application profile to create consistent metadata for your collection without having to ask you what you meant?
+
+---
+
+## Exit check
+
+Choose **one field** from your project.
+
+What does it need?
+
+- controlled vocabulary?
+- encoding/value standard?
+- content guideline?
+- some combination?
+- deliberately free text?
+
+Be ready to say **why**.
+
+---
+
+## From objects to rules
+
+<div class="workflow">
+
+**Object**  
+↓  
+**Metadata fields**  
+↓  
+**Obligation + cardinality**  
+↓  
+**Value rules**  
+↓  
+**Metadata Application Profile**  
+↓  
+**Consistent collection metadata**
+
+</div>
+
+</textarea>
+</section>
+</div>
+</div>
+<script src="dist/reveal.js"></script>
+<script src="plugin/notes/notes.js"></script>
+<script src="plugin/markdown/markdown.js"></script>
+<script src="plugin/highlight/highlight.js"></script>
+<script>
+  Reveal.initialize({
+    hash: true,
+    plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+  });
+</script>
+</body>
+</html>
