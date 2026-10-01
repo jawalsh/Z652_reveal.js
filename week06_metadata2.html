@@ -137,7 +137,7 @@ Black-and-white photograph of students walking toward the Indiana Memorial Union
 
 ### What should we record—and where?
 
----
+<!--
 
 ## Object B: French postcard
 
@@ -161,7 +161,7 @@ Musée Carnavalet, Histoire de Paris — 2021.0.429 — CC0
 
 </div>
 
----
+[slide]
 
 ## Object B: questions
 
@@ -180,7 +180,7 @@ What do we do with:
 
 There may be more than one defensible answer.
 
----
+[slide]
 
 ## Compare your records
 
@@ -193,6 +193,96 @@ Where did groups differ?
 - Which information did you leave out?
 
 ### And now: compare the **values**
+
+-->
+---
+<!-- .slide: class="activity" -->
+## Design metadata for this object
+### <!-- 11:10–11:30 --> Small groups
+
+<div class="columns smaller">
+<div>
+<a href="images/image_georges_clignancourt_associes_635._montmartre_2021.0.429_1922880.jpg"><img src="images/image_georges_clignancourt_associes_635._montmartre_2021.0.429_1922880.jpg"
+     style="max-width: 85%; max-height: 200px;"></a>
+<a href="images/image_georges_clignancourt_associes_635._montmartre_2021.0.429_1922883.jpg"">
+<img src="images/image_georges_clignancourt_associes_635._montmartre_2021.0.429_1922883.jpg"
+     style="max-width: 85%; max-height: 200px;"></a>
+<p class="smaller">
+<strong>Object:</strong> Georges Clignancourt Associés,
+<em>635. Montmartre — Passage de l'Elysée des Beaux-Arts</em>.
+Musée Carnavalet, Histoire de Paris, 2021.0.429. CC0.
+</p>
+
+</div>
+<div class="small">
+
+### Information available about the object
+
+This postcard depicts the Passage de l'Elysée des Beaux-Arts in Montmartre, Paris. It was published by Georges Clignancourt Associés (G. C. A., Paris) in the early 20th century. The card measures 9 × 14 cm and was produced using typography and collotype on card.
+
+The printed caption reads “635. Montmartre — Passage de l'Elysée des Beaux-Arts.” A handwritten message reads “Amitiés de tous — Charlotte” and is addressed to Madame Jacques Pascal in Clermont-Ferrand. The card bears postage stamps and a postal cancellation.
+
+A later handwritten annotation identifies the location as “Act. Rue André-Antoine.” The postcard is held by the Musée Carnavalet, Histoire de Paris, with inventory number 2021.0.429.
+
+> **What information should we record, and which Dublin Core elements should we use?**
+
+</div>
+</div>
+
+
+
+---
+<!-- .slide: class="activity small" -->
+## Make the metadata decisions
+
+For the postcard:
+
+1. Identify the information you think should be **recorded**.
+2. Map that information to appropriate **Dublin Core elements**.
+3. Supply an example **value** for each element.
+4. Decide its **obligation**:
+   - required
+   - recommended
+   - optional
+5. Decide its **cardinality**:
+   - one value
+   - multiple values
+
+Be prepared to explain **one decision your group found difficult**.
+
+> Don't worry yet about rules for formatting names, dates, places, or other values. That's next week's problem.
+
+<!--
+## For now, leave these unresolved
+
+As you work, you may find yourself asking:
+
+- Which form of a person's name should we use?
+- Should subjects come from a fixed list?
+- What format should a date take?
+- Should we transcribe a title exactly?
+- How should multiple values be separated?
+
+**Notice those questions—but don't solve all of them yet.**
+
+They are the focus of Week 6.
+
+-->
+
+---
+<!-- .slide: class="activity small" -->
+## Compare decisions
+### <!-- 11:30–11:38 --> Whole class
+
+Report one decision your group made that could reasonably have been made differently.
+
+Consider:
+
+- Did groups map information differently?
+- Did you disagree about what should be required?
+- Which elements clearly need multiple values?
+- Did Dublin Core give you everything you wanted?
+- What rules would need to be documented before **multiple people** created metadata?
 
 ---
 
@@ -238,6 +328,55 @@ an identifier for **Bloomington, Indiana** in a geographic authority
 - maintaining consistency as a collection grows
 
 > Choosing the right **field** does not guarantee useful metadata.
+
+---
+<!-- .slide: class="small" -->
+## From standard to local practice
+
+Dublin Core might tell us that `Creator` means:
+
+> an entity primarily responsible for making the resource
+
+But our collection still needs to decide things such as:
+
+- Do we use it?
+- Is it required?
+- Can it repeat?
+- What counts as a creator for our materials?
+- How should names be entered?
+
+A general standard must be translated into **local practice**.
+
+---
+## Metadata application profiles
+### <!-- 11:38–11:43 -->
+
+A **metadata application profile (MAP)** documents how a particular collection uses metadata.
+
+A simplified example:
+
+| Field | Definition | Obligation | Cardinality |
+|---|---|---|---|
+| Title | Name by which the item is known | Required | 1 |
+| Creator | Person/organization primarily responsible | Recommended | 0–many |
+| Subject | Topics represented by the item | Recommended | 0–many |
+
+This is only part of what your eventual MAP will contain.
+
+---
+## Why document the rules?
+
+Imagine three people describing 500 objects.
+
+Without shared rules, they may make different decisions about:
+
+- which fields to use;
+- what those fields mean;
+- which values are required;
+- how many values are allowed;
+- how values should be recorded.
+
+> A MAP turns implicit decisions into **explicit documentation**.
 
 ---
 
