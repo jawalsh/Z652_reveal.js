@@ -1,0 +1,414 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Z652 Week 6: Metadata II</title>
+  <link rel="stylesheet" href="dist/reset.css">
+  <link rel="stylesheet" href="dist/reveal.css">
+  <link rel="stylesheet" href="dist/theme/jawalsh.css">
+  <link rel="stylesheet" href="plugin/highlight/monokai.css">
+  <style type="text/css">
+    .reveal img {max-height: 70%; max-width: 60%;}
+    .reveal .small {font-size: 0.72em;}
+    .reveal .smaller {font-size: 0.60em;}
+    .reveal .columns {display: flex; gap: 2em; text-align: left;}
+    .reveal .columns > div {flex: 1;}
+    .reveal .activity {text-align: left;}
+    .reveal .activity h2 {text-align: center;}
+    .reveal .workflow {font-size: 0.8em; text-align: center;}
+    .reveal table {font-size: 0.72em;}
+    .reveal .tight li {margin-bottom: 0.2em;}
+  </style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section data-markdown>
+<textarea data-template>
+
+## Z652: Digital Libraries
+### Metadata Studio
+MAP Peer Review and Project Consultation
+
+John Walsh  
+[jawalsh@iu.edu](mailto:jawalsh@iu.edu)
+
+---
+
+## Today
+
+-  — Orientation
+- 9:20–9:35 — MAP diagnostic review
+- 9:35–10:20 — Structured peer review: read and test
+- 10:20–10:33 — Break
+- 10:33–11:00 — Feedback and debrief
+- 11:00–11:35 — Revision studio and consultations
+- 11:35–11:45 — Revision plan and wrap-up
+
+---
+
+## From Week 5 to Week 7
+
+**Week 5:** Elements, values, Dublin Core
+
+**Week 6:** Obligation, cardinality, vocabularies, encoding, content guidelines, CollectionBuilder
+
+**Week 7:** Put the documentation to the test
+
+> Could someone else use your MAP consistently without asking what you meant?
+
+---
+
+## Today's goal
+
+A MAP is **documentation for another metadata creator**.
+
+Today we will:
+
+- evaluate whether the instructions are clear and complete;
+- use the MAP to describe real objects;
+- identify decisions the MAP leaves undocumented;
+- revise before submitting the final version.
+
+**Test usability—not whether you like the design.**
+
+---
+<!-- .slide: class="activity" -->
+## Get ready
+
+
+Open or exchange:
+
+- your substantive MAP draft;
+- information about **2–3 sample objects**, including an edge case if possible;
+- the [MAP assignment](https://jawalsh.github.io/z652-Digital-Libraries-FA26/assignment_metadata_application_profile.html);
+- the [MAP rubric](https://jawalsh.github.io/z652-Digital-Libraries-FA26/rubric_metadata_application_profile.html).
+
+**Opening question:** What object is most likely to cause trouble for your MAP—and why?
+
+---
+
+## MAP diagnostic review
+
+As we review, inspect **your own MAP**.
+
+1. Elements and definitions
+2. Obligation
+3. Cardinality
+4. Value rules
+5. Content guidelines
+6. Examples
+
+---
+
+## 1. Elements and definitions
+
+- Is each field's purpose clear?
+- Are two fields overlapping unnecessarily?
+- Is each field useful for this collection?
+- Are all required CollectionBuilder-GH fields present?
+	- Is the documentation in the MAP consistent with [CollectionBuilder requirements](https://collectionbuilder.github.io/cb-docs/docs/metadata/gh_metadata/)?
+
+**Ask:** Could another person distinguish these fields without your help?
+
+---
+
+## 2. Obligation
+
+For each field, specify:
+
+- **Required**
+- **Recommended**
+- **Optional**
+
+**What happens if a required value is unknown?**
+
+“Required” is an instruction—not just a declaration of importance.
+
+---
+
+## 3. Cardinality
+
+- Can the field occur once or multiple times?
+- How are repeated values represented?
+
+**What if an object has three creators?**
+
+Does the MAP explain exactly what to do? (See [CollectionBuilder Documentation](https://collectionbuilder.github.io/cb-docs/docs/metadata/gh_metadata/) on multiple values for `subject`, `creator`, `type`, etc.)
+
+---
+## 4. Value rules
+
+For each field, what governs the values?
+
+- Controlled vocabulary (established or local)
+- Encoding scheme / value standard
+- Content guideline
+- Deliberately free text
+
+**Would two metadata creators independently produce compatible values?**
+
+---
+## 5. Content guidelines
+
+Pay special attention to:
+
+- names and titles
+- dates and uncertainty
+- subjects and places
+- transcription versus normalization
+- missing or unknown information
+- punctuation and capitalization
+- multiple values
+
+**Where are decisions still left to individual judgment?**
+
+---
+
+## 6. Examples
+
+A useful example should **clarify the rule**, especially where a metadata creator might hesitate.
+
+Compare:
+
+- `date`: `1965-09-13`
+- `date`: What if only **1965** is known?
+
+Do the examples agree with the rules?
+
+---
+## Check the assignment requirements
+
+Your MAP should document:
+
+- Required CB-GH fields: `objectid`, `filename`, `title`, `format` (and video IDs if applicable)
+- **At least two visualization fields** (`latitude` + `longitude` count as one)
+- Applicable optional fields and **at least one custom field**
+- Obligation, cardinality, guidelines, vocabularies / standards (with links), **Dublin Core mapping**, examples, and relevant notes
+
+Also introduce the collection's **context, content, and users**.
+
+---
+
+## Structured peer review
+
+**Part 1:** Read the MAP as documentation (15 min)
+
+**Part 2:** Test the MAP on sample objects (25 min)
+
+The reviewer should encounter the MAP **without an explanation from its author**.
+
+---
+## Peer review ground rules
+### Pair up
+
+1. Exchange MAPs and sample-object information.
+2. **Authors: do not explain your MAP yet.**
+3. Reviewers: record every question or ambiguity **before** asking the author.
+4. Focus on design and usability—not proofreading.
+
+**A question you have to ask is evidence that the MAP may need revision.**
+
+---
+<!-- .slide: class="activity " -->
+## Part 1: Read as documentation
+### 15 minutes
+
+Without consulting the author, identify:
+
+- unclear or overlapping fields;
+- ambiguous definitions;
+- missing obligation or cardinality;
+- incomplete vocabulary or value rules;
+- missing content guidelines or examples;
+- missing descriptive or CollectionBuilder fields.
+
+**Record uncertainties; do not resolve them yet.**
+
+---
+<!-- .slide: class="activity " -->
+## Part 1: Questions to record
+
+- What belongs in this field?
+- Could this definition mean two different things?
+- Is the field required? Can it repeat?
+- What is an acceptable value?
+- What if the information is unavailable?
+
+**If you have to guess, note where the MAP should explain the decision.**
+
+---
+<!-- .slide: class="activity" -->
+## Part 2: Test the MAP
+### 25 minutes
+
+Use your partner's MAP to **create a metadata record for at least one sample object**.
+
+If time permits, test a second object—especially an **edge case**.
+
+**Follow the written instructions, not what you think the author intended.**
+
+---
+<!-- .slide: class="activity" -->
+## During testing: record every uncertainty
+
+- Which field contains this information?
+- Is it required or repeatable?
+- Which term should I use, and where are permitted values listed?
+- How should names and dates be formatted?
+- Should I transcribe or normalize the wording?
+- How should unknowns or multiple values be handled?
+- Does the same information belong in multiple fields?
+
+**Could another person make the same decision from the MAP alone?**
+
+---
+
+## A useful diagnostic question
+
+When the author says:
+
+- “I assumed…”
+- “I meant…”
+- “For my collection, you're supposed to…”
+
+Ask:
+
+> **Where does the MAP tell the metadata creator that?**
+
+---
+
+## Break
+
+---
+<!-- .slide: class="activity" -->
+## Part 3: Peer feedback
+### 20 minutes
+
+Discuss:
+
+1. What is already clear and usable?
+2. What was difficult or ambiguous in practice?
+3. What important metadata may be missing?
+4. Which rules need clarification or examples?
+5. Which revisions matter most before submission?
+
+---
+<!-- .slide: class="activity" -->
+## Structure the conversation
+
+**8 minutes:** Reviewer reports findings; author listens and takes notes.
+
+**7 minutes:** Author responds and asks follow-up questions.
+
+**5 minutes:** Agree on the **three highest-priority revisions**.
+
+---
+
+## Explaining is not the same as documenting
+
+An author's explanation may solve the reviewer's immediate problem.
+
+But if that explanation was necessary, it may need to be **written into the MAP**.
+
+> The goal is to reduce undocumented decisions.
+
+---
+<!-- .slide: class="activity" -->
+## Whole-class debrief
+### 7 minutes
+
+- What problem did your reviewer find that you missed?
+- Which rule seemed obvious until someone tried it?
+- Did you discover a missing or unnecessary field?
+- Did a controlled vocabulary help—or create a problem?
+- What did your edge case reveal?
+
+---
+
+## What makes a MAP successful?
+
+A successful MAP reduces the number of **undocumented decisions** a metadata creator must make.
+
+It cannot anticipate everything, but it should enable **consistent description of similar materials**.
+
+---
+<!-- .slide: class="activity" -->
+## Revision studio
+### 35 minutes
+
+Start with your **highest-priority peer-review finding**.
+
+Possible revisions:
+
+- rewrite definitions or guidelines;
+- change obligation or cardinality;
+- add, remove, or clarify fields;
+- select vocabularies or establish local terms;
+- specify date, name, unknown-value, and repeat-value rules;
+- verify CollectionBuilder requirements;
+- test a complete sample metadata record.
+
+Ask the instructor or AI for help with **substantive metadata decisions**.
+
+---
+<!-- .slide: class="" -->
+## Consultation questions
+
+- What user need does this field support?
+- What distinction are these fields making?
+- Is the value rule practical for your objects?
+- What happens when a value is unknown?
+- Is this a descriptive rule, a system requirement, or both?
+- Could someone else apply the rule consistently?
+
+**Test any proposed fix against an actual object.**
+
+---
+<!-- .slide: class="activity" -->
+## Exit activity: Revision plan
+### 7 minutes
+
+Write down:
+
+1. Your **three highest-priority MAP revisions**.
+2. **One unresolved question** to research or decide.
+3. **One rule** you tested today and now trust.
+
+Keep this plan as you finish the MAP.
+
+---
+
+## Final MAP: reminders
+
+- Today's draft is a **working draft**, not a separately graded submission.
+- Incorporate testing and peer feedback.
+- Check the assignment and rubric before submission.
+- **Final MAP due October 18, 11:59 p.m.**
+
+Your MAP should be usable by another metadata creator.
+
+---
+
+## Looking ahead: Week 8
+
+We move beyond the individual CollectionBuilder project to larger digital-library systems.
+
+**Consistency, standards, controlled values, and documented local decisions** become even more important when metadata moves between systems.
+</textarea>
+</section>
+</div>
+</div>
+<script src="dist/reveal.js"></script>
+<script src="plugin/notes/notes.js"></script>
+<script src="plugin/markdown/markdown.js"></script>
+<script src="plugin/highlight/highlight.js"></script>
+<script>
+  Reveal.initialize({
+    hash: true,
+    plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+  });
+</script>
+</body>
+</html>
