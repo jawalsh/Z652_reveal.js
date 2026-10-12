@@ -1,0 +1,399 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Z652 Week 8: Enterprise Digital Libraries</title>
+  <link rel="stylesheet" href="dist/reset.css">
+  <link rel="stylesheet" href="dist/reveal.css">
+  <link rel="stylesheet" href="dist/theme/jawalsh.css">
+  <link rel="stylesheet" href="plugin/highlight/monokai.css">
+  <style type="text/css">
+    .reveal img {max-height: 70%; max-width: 60%;}
+    .reveal .small {font-size: 0.72em;}
+    .reveal .smaller {font-size: 0.60em;}
+    .reveal .columns {display: flex; gap: 2em; text-align: left;}
+    .reveal .columns > div {flex: 1;}
+    .reveal .activity {text-align: left;}
+    .reveal .activity h2 {text-align: center;}
+    .reveal .workflow {font-size: 0.8em; text-align: center;}
+    .reveal table {font-size: 0.72em;}
+    .reveal .tight li {margin-bottom: 0.2em;}
+  </style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section data-markdown>
+<textarea data-template>
+
+## Z652: Digital Libraries
+### From CollectionBuilder to Enterprise Digital Libraries
+Architecture and Project Lab
+
+John Walsh  
+[jawalsh@iu.edu](mailto:jawalsh@iu.edu)
+
+---
+
+## Today
+
+- 9:10–9:25 — From CollectionBuilder to scale
+- 9:25–9:55 — Enterprise architecture and software
+- 9:55–10:15 — Object workflows and institutional responsibilities
+- 10:15–10:28 — Break
+- 10:28–10:45 — Architecture activity and discussion
+- 10:45–11:35 — Project lab and consultations
+- 11:35–11:45 — Progress check and wrap-up
+
+---
+
+## The central question
+
+**What changes when a digital collection becomes an institutional service rather than a website?**
+
+Think about:
+
+- one million objects;
+- multiple staff editing records;
+- decades of stewardship.
+
+---
+
+<!-- .slide: class="activity" -->
+## Opening discussion
+
+**What would break—or become difficult—if your CollectionBuilder project grew to one million objects?**
+
+- Capture two or three concrete problems.
+- Which are technical?
+- Which are organizational?
+
+---
+
+## CollectionBuilder: What do we already have?
+
+- Metadata: structured CSV
+- Digital objects: files and referenced media
+- Presentation: generated static HTML
+- Search/browse: generated site features and browser-side functionality
+- Publication: GitHub Pages or another web host
+
+**Strength:** understandable, portable, relatively lightweight.
+
+---
+
+## Static site: simplified architecture
+
+```text
+metadata.csv + digital files + configuration
+                    |
+             site generation
+                    |
+          HTML / JSON / assets
+                    |
+               web host
+                    |
+                 users
+```
+
+**Where is the editorial workflow? Where is preservation?**
+
+---
+
+## Enterprise does not mean one product
+
+An enterprise digital library is a **set of coordinated services**.
+
+- Manage objects and descriptive records
+- Coordinate people and permissions
+- Support discovery and delivery
+- Track changes and preservation actions
+- Keep services operating over time
+
+---
+
+<!-- .slide: class="smaller" -->
+## Enterprise architecture: conceptual map
+
+```text
+                 PUBLIC INTERFACE / APIs
+                          |
+                    SEARCH INDEX
+                          ^
+                          |
+STAFF INGEST -> REPOSITORY / APPLICATION -> METADATA DATABASE
+                          |
+                    OBJECT STORAGE
+                          |
+                PRESERVATION SERVICES
+```
+
+*Conceptual relationships, not a universal product configuration.*
+
+---
+
+## Distinguish the layers
+
+- **Repository:** manages digital resources, identifiers, relationships, access
+- **Database:** stores structured application data
+- **Object storage:** holds files and bitstreams
+- **Search index:** supports fast retrieval and faceting
+- **Interface:** helps people deposit, manage, find, and use objects
+
+**One system may combine several functions.**
+
+---
+
+## Fedora: repository services
+
+- Manages digital resources and relationships
+- Provides persistent resource identification and APIs
+- Supports integration with other applications
+
+**Fedora is not, by itself, a polished public digital-collection website.**
+
+[Fedora Repository](https://fedorarepository.org/)
+
+---
+
+## Samvera and Hyrax
+
+- **Samvera:** community and ecosystem for repository applications
+- **Hyrax:** application providing deposit, management, and discovery features
+- May integrate repository, database, search, and storage services
+
+**Analogy:** Fedora is a repository layer; Hyrax provides more of the user-facing application.
+
+[Samvera](https://samvera.org/) · [Hyrax](https://hyrax.samvera.org/)
+
+---
+
+## PostgreSQL: relational database
+
+- Structured records and relationships
+- Transactions and concurrent updates
+- Application state, users, and permissions
+
+**Not the same as:** storing image files or building a search index.
+
+[PostgreSQL](https://www.postgresql.org/)
+
+---
+
+## Solr / OpenSearch: search index
+
+- Indexes selected metadata and sometimes full text
+- Supports fast search, filters, facets, ranking
+- Rebuildable from authoritative sources when designed appropriately
+
+**Why not search the database directly for everything?**
+
+[Solr](https://solr.apache.org/)
+
+---
+
+## File storage vs. object storage
+
+- Store preservation masters and access copies
+- Separate storage from presentation
+- Plan redundancy, backup, fixity, and recovery
+- Storage alone does **not** equal preservation
+
+**Question:** What does a folder of files fail to tell us?
+
+---
+
+<!-- .slide: class="smaller" -->
+## Follow one digital object
+
+```text
+Receive master file + metadata
+              |
+     Validate / assign identifier
+              |
+    Store master and metadata
+              |
+    Generate access derivative
+              |
+     Index descriptive fields
+              |
+     Publish through interface
+              |
+    Monitor, audit, preserve
+```
+
+Not every repository uses exactly this sequence.
+
+---
+
+## Ingest: more than uploading
+
+- Verify file identity and integrity
+- Validate required metadata
+- Assign or register identifiers
+- Check rights and access restrictions
+- Record provenance and actions
+
+**Connection to last week:** Your MAP supplies rules for metadata validation.
+
+---
+
+## Masters and derivatives
+
+- **Master:** retained high-quality source for stewardship
+- **Derivative:** transformed copy for delivery or analysis
+- Example: high-resolution TIFF → web JPEG / thumbnail
+
+**Why not deliver the master to every user?**
+
+*We'll study image formats and derivatives next week.*
+
+---
+
+## Preservation is an ongoing workflow
+
+- Fixity checks: has a file changed unexpectedly?
+- Replication and recovery: can we recover from failure?
+- Format monitoring and migration decisions
+- Documentation, staffing, and funding
+
+**A backup is necessary but not a preservation program.**
+
+---
+
+## IIIF and APIs: brief preview
+
+- APIs allow systems to exchange information and services
+- IIIF supports interoperable image presentation and delivery
+- Repository, delivery service, and viewer can be separate
+
+**We'll return to IIIF in Week 10.**
+
+---
+
+## The institution is part of the architecture
+
+Who is responsible for:
+
+- metadata quality and policy?
+- access and rights decisions?
+- infrastructure, security, and upgrades?
+- preservation planning and funding?
+
+**Technology choices create continuing commitments.**
+
+---
+
+## Break
+
+---
+
+<!-- .slide: class="activity smaller" -->
+## Architecture activity — 12 minutes
+
+**Map your CollectionBuilder project onto the enterprise layers.**
+
+1. Locate your metadata, objects, presentation, and search.
+2. Identify functions already present in your project.
+3. Add three services or responsibilities needed at institutional scale.
+4. Mark one area where the boundary is unclear.
+
+Work individually or in pairs; sketch on paper or in a document.
+
+---
+
+<!-- .slide: class="activity" -->
+## Debrief — 5 minutes
+
+- What did CollectionBuilder already accomplish?
+- What would need to be separated or added?
+- What is primarily a **staffing/policy** problem?
+- Which architectural choice depends on institutional requirements?
+
+**There is no single correct architecture.**
+
+---
+
+<!-- .slide: class="smaller" -->
+## CollectionBuilder vs. enterprise systems
+
+| Question | CollectionBuilder | Enterprise approach |
+|---|---|---|
+| Publishing | Generated static site | Dynamic services often involved |
+| Editing | Files / CSV / Git workflows | Multi-user management workflows |
+| Search | Site-oriented search | Dedicated index often used |
+| Preservation | Requires separate planning | May integrate preservation services |
+| Operations | Relatively light | Ongoing staffing and infrastructure |
+
+These are patterns, not absolute rules.
+
+---
+
+## Project lab — 50 minutes
+
+**Choose 2–3 concrete tasks and begin with the highest priority.**
+
+- Apply MAP peer-review feedback to records
+- Check `objectid`, filenames, and digital objects
+- Test collection pages and navigation
+- Fix build or display issues
+- Document remaining work
+
+Instructor and AI consultations available.
+
+---
+
+<!-- .slide: class="activity" -->
+## Lab checkpoint
+
+At the halfway point, ask yourself:
+
+- What is finished and verified?
+- What is blocked?
+- What can I show someone else?
+
+**A working, tested improvement beats an ambitious unfinished change.**
+
+---
+
+<!-- .slide: class="activity" -->
+## Exit ticket — 10 minutes
+
+Record:
+
+1. **Completed:** one concrete change or verified result
+2. **Next:** your next two priorities
+3. **Blocked:** one question or problem, if any
+4. **Architecture:** one enterprise feature your collection would need at scale
+
+Keep this with your project notes.
+
+---
+
+## Looking ahead: Week 9
+
+**Image Objects I**
+
+- Raster and vector graphics
+- File formats and resolution
+- Preservation masters and access derivatives
+
+Today introduced the *system*; next week we examine the *objects*.
+
+</textarea>
+</section>
+</div>
+</div>
+<script src="dist/reveal.js"></script>
+<script src="plugin/notes/notes.js"></script>
+<script src="plugin/markdown/markdown.js"></script>
+<script src="plugin/highlight/highlight.js"></script>
+<script>
+  Reveal.initialize({
+    hash: true,
+    plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+  });
+</script>
+</body>
+</html>
