@@ -1,0 +1,214 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Z652 Week 9: Image Comparison Review</title>
+  <link rel="stylesheet" href="dist/reset.css">
+  <link rel="stylesheet" href="dist/reveal.css">
+  <link rel="stylesheet" href="dist/theme/jawalsh.css">
+  <link rel="stylesheet" href="plugin/highlight/monokai.css">
+  <style type="text/css">
+    .reveal img {max-height: 70%; max-width: 60%;}
+    .reveal .small {font-size: 0.72em;}
+    .reveal .smaller {font-size: 0.60em;}
+    .reveal .columns {display: flex; gap: 2em; text-align: left;}
+    .reveal .columns > div {flex: 1;}
+    .reveal .activity {text-align: left;}
+    .reveal .activity h2 {text-align: center;}
+    .reveal .workflow {font-size: 0.8em; text-align: center;}
+    .reveal table {font-size: 0.72em;}
+    .reveal .tight li {margin-bottom: 0.2em;}
+	.reveal .full-image img {
+  		max-width: 100%;
+		max-height: 100%;
+	    width: auto;
+		height: auto;
+		margin: 0;
+		object-fit: contain;
+	}
+    .reveal .three-images {display:flex; gap:0.5em; justify-content:center; align-items:start;}
+    .reveal .three-images > div {width:32%;}
+    .reveal .three-images img {max-width:100%; max-height:420px; margin:0;}
+    .reveal .three-images p {font-size:0.55em; margin:0.2em;}
+    .reveal a {text-decoration:underline;}
+  </style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section data-markdown>
+<textarea data-template>
+<!-- .slide: class="smaller" -->
+## Image comparison: file index
+
+**Fresque des Lyonnais — same photograph, six encodings (4032 × 3024 pixels)**
+
+1. [01_full_lossless.png](images/01_full_lossless.png) — PNG
+2. [02_full_lossless.tif](images/02_full_lossless.tif) — TIFF
+3. [04_jpeg_q90.jpg](images/04_jpeg_q90.jpg) — JPEG
+4. [04_jpeg_q50.jpg](images/04_jpeg_q50.jpg) — JPEG
+5. [04_jpeg_q10.jpg](images/04_jpeg_q10.jpg) — JPEG
+6. [10_jpeg2000_lossless.jp2](images/10_jpeg2000_lossless.jp2) — JPEG 2000
+
+*Click a filename to open/download it. Some browsers cannot display TIFF or JP2 directly.*
+
+---
+
+## First impressions
+
+- Which files were biggest and smallest?
+- Which looked different **at normal viewing size**?
+- What changed when you **zoomed in**?
+- Did every file open in your usual software?
+
+**Keep separate:** pixel dimensions, file size, visible quality, and compatibility.
+
+---
+
+
+## What was actually supplied?
+
+| File | Encoding | Approx. size |
+|---|---|---:|
+| `01_full_lossless.png` | PNG / lossless DEFLATE | 12.2 MiB |
+| `02_full_lossless.tif` | TIFF / lossless LZW | 29.3 MiB |
+| `04_jpeg_q90.jpg` | JPEG / lossy, quality 90 | 2.5 MiB |
+| `04_jpeg_q50.jpg` | JPEG / lossy, quality 50 | 1.0 MiB |
+| `04_jpeg_q10.jpg` | JPEG / lossy, quality 10 | 0.4 MiB |
+| `10_jpeg2000_lossless.jp2` | JPEG 2000 / lossless | ~14.8 MiB |
+
+All six: **4032 × 3024 pixels**. File sizes are approximate; encodings differ.
+
+---
+<!-- .slide: class="small" -->
+## PNG: lossless compression
+
+![Lyon mural, PNG](images/01_full_lossless.png)
+
+- Uses **DEFLATE** lossless compression.
+- Preserves the pixel values of the decoded source.
+- Smaller than this particular LZW TIFF—not a universal rule.
+
+---
+
+## TIFF: lossless, but compressed
+
+- This TIFF uses **LZW** compression.
+- **Lossless ≠ uncompressed.**
+- TIFF can also be uncompressed, use other lossless methods, or even contain lossy JPEG data.
+- Good preservation candidate, but format **and encoding settings** matter.
+
+[Open the TIFF](images/02_full_lossless.tif) (browser support varies)
+
+---
+
+## JPEG quality 90: access-friendly
+<!-- .slide: class="small" -->
+
+![Lyon mural, JPEG quality 90](images/04_jpeg_q90.jpg)
+
+- Much smaller than PNG/TIFF.
+- Lossy: some information is discarded.
+- At normal size, differences may be difficult to notice.
+- Useful for many web-access images, **not** a substitute for an original capture file.
+
+---
+<!-- .slide: class="small" -->
+## JPEG quality 50: inspect closely
+
+![Lyon mural, JPEG quality 50](images/04_jpeg_q50.jpg)
+
+- Lower file size, stronger compression.
+- Look around **edges, fine lettering, railings, and textures**.
+- Artifacts become easier to see when zoomed in.
+
+---
+<!-- .slide: class="small" -->
+## JPEG quality 10: the tradeoff becomes visible
+
+![Lyon mural, JPEG quality 10](images/04_jpeg_q10.jpg)
+
+- Very small file relative to the lossless versions.
+- Look for **blockiness, smearing, and halos around edges**.
+- Still 4032 × 3024 pixels: **pixel count alone does not measure quality**.
+
+---
+
+<!-- .slide: class="smaller" -->
+## Same detail, different JPEG settings
+
+<div class="three-images">
+<div><img src="images/07_detail_reference_3x.png" alt="Reference detail"><p>Reference (PNG)</p></div>
+<div><img src="images/07_detail_q50_3x.png" alt="JPEG quality 50 detail"><p>JPEG Q50</p></div>
+<div><img src="images/07_detail_q10_3x.png" alt="JPEG quality 10 detail"><p>JPEG Q10</p></div>
+</div>
+
+These are matching crops enlarged **3× with nearest-neighbor scaling** for inspection; enlargement does not restore detail.
+
+---
+
+## JPEG 2000: lossless JP2
+
+- This `.jp2` uses **lossless JPEG 2000** compression.
+- Decoded pixels match the full-resolution PNG exactly.
+- JPEG 2000 can also be **lossy**; the extension alone doesn't tell you.
+- Strong technical capabilities, but **less consistent software/browser support**.
+
+[Open/download 10_jpeg2000_lossless.jp2](images/10_jpeg2000_lossless.jp2)
+
+**Question:** Does a preservation-worthy format also have to be easy to display in a browser?
+
+---
+
+## Why are lossless files different sizes?
+
+- PNG uses **DEFLATE**.
+- Our TIFF uses **LZW**.
+- Our JP2 uses **lossless JPEG 2000**.
+- All can represent the same decoded pixels exactly.
+- Compression effectiveness depends on the algorithm, settings, and image content.
+
+**Different file sizes do not necessarily mean different image quality.**
+
+---
+
+## Preservation master vs. access copy
+
+**For a new digitization project:**
+
+- **Master:** preserve the highest-quality capture, often TIFF (uncompressed or losslessly compressed), with technical metadata.
+- **Access:** deliver an appropriately sized JPEG or other web-friendly derivative.
+- **JP2:** possible preservation/access role where institutional systems support it.
+
+**Important caveat about our example:** the camera original was **HEIC**, already lossy. Converting it to lossless TIFF/PNG/JP2 **does not recover discarded detail**. Preserve the original HEIC too.
+
+---
+
+## What did we learn?
+
+1. **Lossless** does not mean **uncompressed**.
+2. All six have the **same pixel dimensions**, not the same visual quality or file size.
+3. JPEG quality settings affect **artifacts and file size**.
+4. A file extension does not always reveal **compression type**.
+5. **Compatibility and institutional workflows** matter alongside technical quality.
+
+**Return to the activity:** Which would you choose for preservation and web access—and why?
+
+</textarea>
+</section>
+</div>
+</div>
+<script src="dist/reveal.js"></script>
+<script src="plugin/notes/notes.js"></script>
+<script src="plugin/markdown/markdown.js"></script>
+<script src="plugin/highlight/highlight.js"></script>
+<script>
+  Reveal.initialize({
+    hash: true,
+    slideNumber: "c/t",
+    plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+  });
+</script>
+</body>
+</html>
