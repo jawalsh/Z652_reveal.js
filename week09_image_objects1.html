@@ -1,0 +1,414 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Z652 Week 9: Image Objects I — JPEG 2000 update</title>
+  <link rel="stylesheet" href="dist/reset.css">
+  <link rel="stylesheet" href="dist/reveal.css">
+  <link rel="stylesheet" href="dist/theme/jawalsh.css">
+  <link rel="stylesheet" href="plugin/highlight/monokai.css">
+  <style type="text/css">
+    .reveal img {max-height: 70%; max-width: 60%;}
+    .reveal .small {font-size: 0.72em;}
+    .reveal .smaller {font-size: 0.60em;}
+    .reveal .columns {display: flex; gap: 2em; text-align: left;}
+    .reveal .columns > div {flex: 1;}
+    .reveal .activity {text-align: left;}
+    .reveal .activity h2 {text-align: center;}
+    .reveal .workflow {font-size: 0.8em; text-align: center;}
+    .reveal table {font-size: 0.72em;}
+    .reveal .tight li {margin-bottom: 0.2em;}
+	.reveal .full-image img {
+  		max-width: 100%;
+		max-height: 100%;
+	    width: auto;
+		height: auto;
+		margin: 0;
+		object-fit: contain;
+	}
+  </style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section data-markdown>
+<textarea data-template>
+## Z652: Digital Libraries
+### Image Objects I
+Raster & Vector Graphics, File Formats, Preservation and Access
+
+John Walsh  
+[jawalsh@iu.edu](mailto:jawalsh@iu.edu)
+
+---
+
+## Today
+
+- 9:10–9:25 — Images as digital objects; opening inspection
+- 9:25–9:50 — Raster, vector, pixels, dimensions, resolution
+- 9:50–10:15 — Color, bit depth, compression, formats
+- 10:15–10:28 — Break
+- 10:28–10:50 — Masters, derivatives, metadata, preservation
+- 10:50–11:25 — Image comparison and workflow activity
+- 11:25–11:40 — CollectionBuilder project application
+- 11:40–11:45 — Wrap-up
+
+---
+
+## Central question
+
+**How do we choose image files that are useful now and stewardable later?**
+
+A digital image is more than what appears on the screen.
+
+---
+
+<!-- .slide: class="activity" -->
+## Opening: inspect your images
+
+Use the two or three images you examined before class.
+
+- What formats and pixel dimensions did you find?
+- Which appear to be access copies? What evidence supports that inference?
+- What information is missing?
+
+**A filename or extension alone cannot establish preservation quality.**
+
+---
+
+## Images as digital objects
+
+- Image content and its technical representation
+- Source object and circumstances of capture
+- Descriptive, technical, rights, and preservation metadata
+- Master files, derivatives, and relationships among them
+
+**Question:** What is lost if we retain only a downloaded web image?
+
+---
+
+## Raster graphics
+
+- Grid of pixels, each recording color or intensity
+- Fixed pixel dimensions: e.g., 4000 × 3000
+- Common for photographs and scanned pages
+- Enlarging beyond available detail reveals pixels or interpolation
+
+**Examples:** TIFF, JPEG, PNG
+
+---
+
+## Vector graphics
+
+- Shapes, lines, paths, and text described mathematically
+- Can scale without pixelation in ordinary rendering
+- Useful for diagrams, logos, line art, some maps
+- Rendering or printing ultimately produces pixels or marks
+
+**Example:** SVG
+
+---
+
+<!-- .slide: class="activity" -->
+## Raster or vector?
+
+Which would you choose for:
+
+1. A historical photograph?
+2. A simple institutional logo?
+3. A scan of a manuscript page?
+4. A diagram with labels that may be resized?
+
+**Explain the choice, not just the format.**
+
+---
+<!-- .slide: class="full-image" -->
+![raster and vector images compared](images/raster_vector_compare.png)
+---
+
+## Pixel dimensions ≠ print resolution
+
+- **Dimensions:** width × height in pixels
+- **PPI:** pixels per inch at a specified output size
+- **Scanning PPI:** sampling density relative to the physical original
+- A PPI metadata tag does not add image detail
+
+**Example:** 3000 pixels wide at 300 PPI → 10 inches wide.
+
+---
+
+## What does higher resolution buy us?
+
+- More captured detail *if the source and capture support it*. (Higher scanning resolution is useful only when the original contains additional detail worth capturing and the scanner can resolve it.)
+- More ability to zoom, crop, and create derivatives
+- Larger files and processing/storage demands
+- Upsampling cannot recover detail never captured
+
+**Question:** Is “scan everything at the highest possible PPI” a reasonable policy?
+
+---
+
+## Bit depth and color
+
+- Bit depth: number of bits used to represent sample values
+- 8-bit grayscale: 256 possible gray levels
+- 24-bit RGB (8 bits per RGB channel): about 16.7 million color combinations.
+- Higher bit depth can preserve more tonal information during editing
+- Color profiles help interpret and reproduce color consistently
+
+---
+
+## Compression: two different goals
+
+- **Lossless:** reconstructed pixel values match the encoded source
+- **Lossy:** discards information to reduce file size
+- Repeated lossy saves can accumulate artifacts
+- Smaller does not automatically mean better for stewardship
+
+**Prompt:** Where might small files matter more than exact pixel retention?
+
+---
+
+<!-- .slide: class="smaller" -->
+## Compare common formats
+
+| Format | Typical strengths | Considerations |
+|---|---|---|
+| TIFF | High-quality master; lossless options; rich metadata support | Large; not ideal for browser delivery |
+| JPEG 2000 (JP2) | Lossless **or** lossy; efficient high-resolution imaging | Uneven native browser support; software compatibility matters |
+| JPEG | Small photographic access images; broad support | Lossy; repeated recompression |
+| PNG | Lossless raster; transparency; graphics/screenshots | Often large for photos |
+| SVG | Scalable diagrams and line art | Not appropriate for ordinary photographic scans |
+
+**A format alone does not guarantee preservation suitability.**
+
+---
+
+## TIFF: a preservation master?
+
+- Common choice for high-quality digitization masters
+- Can be uncompressed or use lossless compression
+- Supports varied color spaces, bit depths, metadata
+- Requires documented creation settings and quality control
+
+**Not every TIFF is a good master; not every master must be TIFF.**
+
+---
+
+## JPEG 2000 is not ordinary JPEG
+
+- **JPEG (.jpg):** familiar lossy photographic format
+- **JPEG 2000 (.jp2):** different encoding standard and file format
+- JPEG 2000 supports **lossless and lossy** compression
+- Supports high bit depths and progressive/region-based decoding
+- Used in some cultural-heritage imaging and delivery workflows
+
+**Question:** Why might an archive use JP2 internally but deliver JPEG to browsers?
+
+---
+
+<!-- .slide: class="smaller" -->
+## JPEG 2000: benefits and tradeoffs
+
+| Benefit | Practical qualification |
+|---|---|
+| Lossless encoding possible | Must verify how a particular JP2 was encoded |
+| Efficient high-resolution workflows | Actual size/quality depends on settings and content |
+| Useful in some repository/image-server systems | Browser support is less universal than JPEG/PNG |
+| Can support progressive or region-oriented access | Not every viewer/server implements every feature |
+
+**A `.jp2` or `.tif` extension does not tell you whether compression was lossless.**
+
+---
+
+## JPEG and PNG: access choices
+
+**JPEG:** photographic web delivery where size matters.
+
+**PNG:** lossless web graphics, transparency, screenshots, line art.
+
+For a photograph, compare *visible quality at a realistic display size* and file size.
+
+---
+
+## Break
+
+---
+
+## Master vs. derivative
+
+**Preservation master**
+- High-quality retained representation
+- Managed for authenticity and long-term reuse
+
+**Access derivative**
+- Sized or transformed for a particular delivery need
+- Can often be regenerated from the master
+
+Example: archival TIFF → web JPEG → thumbnail.
+
+---
+
+## Why keep the large master?
+
+- Future display standards and research questions change
+- New crops, zoom levels, and access formats may be needed
+- A derivative may omit detail or introduce artifacts
+- A master preserves options for later processing
+
+**But:** keeping a file is not the same as preserving it.
+
+---
+
+## Technical and preservation metadata
+
+- Format, pixel dimensions, bit depth, color profile, file size
+- Capture equipment/settings and processing history where relevant
+- Identifier, source, date, and file relationships
+- Fixity value (checksum), events, and responsible agents
+
+**Which of these can you read automatically? Which need documentation?**
+
+---
+
+## Checksums and fixity
+
+- A checksum is a computed fingerprint of file bytes
+- Recompute and compare to detect unexpected changes
+- A matching checksum supports integrity, not image quality or authenticity by itself
+- Keep records of when checks were performed and outcomes
+
+**Question:** What happens when a check fails?
+
+<!-- 
+
+If a fixity check fails, it means the file’s current checksum doesn’t match the checksum previously recorded. The file may have been corrupted or altered.
+
+The institution should:
+
+1. Investigate: Determine whether the file was intentionally modified or whether something went wrong.
+2. Check other copies: Compare the file against backups or redundant copies.
+3. Restore: If the file is corrupted, replace it with a verified, intact copy.
+4. Document: Record the failure, investigation, and any corrective action.
+
+-->
+
+---
+
+## Federal Agencies Digital Guidelines Initiative (FADGI): quality is a workflow
+
+- Digitization guidelines address measurable capture quality
+- Targets depend on the source material and intended use
+- Equipment, calibration, targets, and quality assurance matter
+- A high-resolution scan can still have poor focus or color
+
+[Library of Congress overview](https://blogs.loc.gov/thesignal/2023/05/fadgi-third-edition-still-image/)
+
+---
+
+<!-- .slide: class="activity" -->
+## Activity: compare image versions — 20 min
+
+In pairs or small groups, use sample images or your own project files.
+
+1. Record format, dimensions, and file size for each version.
+2. Compare detail at normal size and zoomed in.
+3. Look for compression artifacts, softness, or color changes.
+4. Identify a plausible master and access copy; explain uncertainties.
+5. Discuss where a **lossless JP2** might fit, even if you cannot open one in the browser.
+6. Choose a delivery format and justify it.
+
+**Record evidence, not just preferences.**
+
+*JP2 comparison is conceptual unless a locally supported sample/viewer is available.*
+
+---
+
+<!-- .slide: class="activity" -->
+## Debrief: what did you observe? — 5 min
+
+- Did larger files visibly improve the experience?
+- When did differences become apparent?
+- Could you identify a master from inspection alone?
+- What additional metadata would resolve uncertainty?
+
+---
+
+<!-- .slide: class="activity" -->
+## Design an image-management plan — 10 min
+
+For your final collection, write down:
+
+- Source files and where they come from
+- What you will retain as masters, if available
+- What web-ready images or thumbnails you need
+- Filenames, identifiers, and master–derivative links
+- What technical details and rights information to record
+- Where files and backups will live
+
+---
+
+## Images in CollectionBuilder
+
+- Plan for web-appropriate image files, filenames, and consistent references in metadata
+- Preserve or document source/master files separately as appropriate
+- Match metadata identifiers and filenames carefully
+- Test that images display correctly in your actual project
+- Avoid treating the published site as your preservation repository
+
+---
+
+<!-- .slide: class="activity" -->
+## Project application — 15 min
+
+Use remaining time to make one concrete improvement:
+
+- Inspect and inventory your actual image files
+- Decide which derivatives you need (including whether JP2 is relevant to your workflow)
+- Standardize filenames and link them to metadata rows
+- Add missing technical details to project documentation
+- Test one image in your CollectionBuilder repository
+
+**Instructor consultations available.**
+
+---
+
+## Exit ticket — 5 min
+
+In your project notes, record:
+
+1. One image-format or workflow decision you made, with a reason
+2. One missing piece of information to obtain
+3. Your next practical image-preparation task
+
+---
+
+## Looking ahead: Week 10
+
+**Image Objects II: processing, delivery, and interoperability**
+
+- Batch processing and derivatives
+- Image delivery workflows
+- IIIF and interoperable image services
+
+Today: *what an image file is and why we retain it.*  
+Next week: *how we process and deliver it.*
+
+</textarea>
+</section>
+</div>
+</div>
+<script src="dist/reveal.js"></script>
+<script src="plugin/notes/notes.js"></script>
+<script src="plugin/markdown/markdown.js"></script>
+<script src="plugin/highlight/highlight.js"></script>
+<script>
+  Reveal.initialize({
+    hash: true,
+    slideNumber: true,
+    plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+  });
+</script>
+</body>
+</html>
