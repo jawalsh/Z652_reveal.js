@@ -1,0 +1,502 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Z652 Week 10: Image Objects II</title>
+  <link rel="stylesheet" href="dist/reset.css">
+  <link rel="stylesheet" href="dist/reveal.css">
+  <link rel="stylesheet" href="dist/theme/jawalsh.css">
+  <link rel="stylesheet" href="plugin/highlight/monokai.css">
+  <style type="text/css">
+    .reveal img {max-height: 70%; max-width: 60%;}
+    .reveal .small {font-size: 0.72em;}
+    .reveal .smaller {font-size: 0.60em;}
+    .reveal .columns {display: flex; gap: 2em; text-align: left;}
+    .reveal .columns > div {flex: 1;}
+    .reveal .activity {text-align: left;}
+    .reveal .activity h2 {text-align: center;}
+    .reveal .workflow {font-size: 0.8em; text-align: center;}
+    .reveal table {font-size: 0.72em;}
+    .reveal .tight li {margin-bottom: 0.2em;}
+	.reveal .full-image img {
+  		max-width: 100%;
+		max-height: 100%;
+	    width: auto;
+		height: auto;
+		margin: 0;
+		object-fit: contain;
+	}
+  </style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section data-markdown>
+<textarea data-template>
+
+## Z652: Digital Libraries
+### Image Objects II
+Image Processing, IIIF, and Interoperability
+
+John Walsh  
+[jawalsh@iu.edu](mailto:jawalsh@iu.edu)
+
+---
+
+## Today
+
+- 9:10–9:20 — Review: masters and derivatives
+- 9:20–9:35 — Image transformations + decision exercise
+- 9:35–10:05 — ImageMagick: demonstration and hands-on
+- 10:05–10:15 — Batch processing and reproducibility
+- 10:15–10:28 — Break
+- 10:28–10:40 — Why IIIF? Architecture
+- 10:40–10:55 — Viewer exploration
+- 10:55–11:10 — Image and Presentation APIs
+- 11:10–11:25 — Trace a IIIF request
+- 11:25–11:40 — CollectionBuilder project decisions
+- 11:40–11:45 — Exit ticket
+
+---
+
+## From Week 9 to Week 10
+
+Last week: **What is an image file, and what should we preserve?**
+
+Today: **How do we transform and deliver images without losing control of the originals?**
+
+A preservation master and a web image serve different purposes.
+
+---
+
+<!-- .slide: class="activity" -->
+## Opening: choose the right copy — 5 min
+
+A repository holds a 6000 × 4000 TIFF master. Its public site needs a fast-loading image approximately 1200 pixels wide.
+
+- Which file should users download by default?
+- What should happen to the TIFF?
+- What information should connect the two?
+
+**Pair discussion (3 min), then share (2 min).**
+
+---
+
+## Image transformations
+
+- **Resize:** change pixel dimensions
+- **Crop:** remove part of the image
+- **Rotate:** change orientation
+- **Convert:** encode in a different file format
+- **Compress:** change how image data is stored
+
+A transformation may be reversible in a workflow even when its output loses information: retain the source.
+
+---
+
+## What can go wrong?
+
+- Resizing down removes detail
+- Cropping removes context
+- Converting to JPEG introduces lossy compression
+- Rotating and resaving may trigger recompression
+- Incorrect color handling changes appearance
+
+**Always ask:** Which file is the input? Where is the output written?
+
+---
+
+<!-- .slide: class="activity" -->
+## Decision exercise — 5 min
+
+For each case, choose a transformation and explain why:
+
+1. A 5000-pixel scan must fit a 1000-pixel-wide page.
+2. A postcard scan has empty scanner-bed margins.
+3. A TIFF needs a broadly supported browser version.
+4. A manuscript scan must remain available for future research.
+
+**Which actions create derivatives? Which require caution?**
+
+---
+
+## ImageMagick: command-line processing
+
+- Runs image operations from commands or scripts
+- Supports inspection, resizing, cropping, conversion
+- Useful for repeating the same procedure across many files
+- Commands document *what was done*
+
+[ImageMagick documentation](https://imagemagick.org/script/command-line-processing.php)
+
+---
+
+<!-- .slide: class="" -->
+## Read a command before running it
+
+```bash
+magick identify source.tif
+magick source.tif -resize 1200x1200\> access.jpg
+```
+
+- `source.tif` = input
+- `-resize` = transformation
+- `1200x1200>` = fit within the box **only if larger** (quote or escape `>` in a shell)
+- `access.jpg` = new output
+
+**Question:** Why should output have a different filename?
+
+---
+
+<!-- .slide: class="activity" -->
+## Hands-on: inspect and resize — 12 min
+
+Use one of last week's sample images or a project image. Work with a copy.
+
+```bash
+magick identify source.png
+magick source.png -resize '1200x1200>' access.jpg
+magick identify access.jpg
+```
+
+1. Record input and output dimensions.
+2. Compare file sizes.
+3. Zoom into the two files: what detail changed?
+
+**If ImageMagick is unavailable:** interpret the commands and predict outcomes with a partner.
+
+---
+
+<!-- .slide: class="activity" -->
+## Hands-on: convert and compare — 10 min
+
+```bash
+magick source.png converted.tif
+magick source.png -quality 70 compressed.jpg
+magick identify converted.tif compressed.jpg
+```
+
+- Which conversion is potentially lossy?
+- Does a larger file necessarily contain more detail?
+- What should be recorded about these outputs?
+
+**Important:** converting an already lossy file to TIFF does not restore lost information.
+
+---
+
+## Debrief: one image, several outputs
+
+- Master: retained original or high-quality source
+- Access image: fit for ordinary viewing
+- Thumbnail: small preview
+- Other derivatives: crops, tiles, alternative formats
+
+**Prompt:** Which steps should be standardized for an entire collection?
+
+---
+
+## Batch processing
+
+For 500 images, repeating a manual operation is slow and inconsistent.
+
+A script can apply the same settings to each source, generate predictable names, and record failures.
+
+**But:** a batch operation can also repeat a mistake 500 times.
+
+---
+
+<!-- .slide: class="" -->
+## Example: batch derivatives
+
+```bash
+mkdir -p derivatives
+for f in masters/*.tif; do
+  base=$(basename "$f" .tif)
+  magick "$f" -resize '1200x1200>' \
+    "derivatives/${base}.jpg"
+done
+```
+
+**Read it:** What is the input set? What is the output location? Does it overwrite the masters?
+
+*This example assumes TIFF filenames end in `.tif`; real workflows need testing and error handling.*
+
+---
+
+<!-- .slide: class="" -->
+## Another example: batch derivatives
+
+```
+mkdir -p derivatives/access derivatives/thumb
+
+for f in masters/*.tif; do
+  base=$(basename "$f" .tif)
+
+  # Create access image (maximum 1200 pixels)
+  magick "$f" -resize '1200x1200>' \
+    "derivatives/access/${base}.jpg"
+
+  # Create thumbnail (maximum 200 pixels)
+  magick "$f" -resize '200x200>' \
+    "derivatives/thumb/${base}.jpg"
+done
+```
+
+**Read it:** What is the input set? What are the output locations? Does it overwrite the masters?
+
+*This example assumes TIFF filenames end in `.tif`; real workflows need testing and error handling.*
+---
+<!-- .slide: class="activity" -->
+## Reproducibility checkpoint — 5 min
+
+Your institution regenerates derivatives two years later.
+
+What must you keep besides the output JPEGs?
+
+Discuss: source files, commands/scripts, software versions, parameters, filenames, logs, and quality checks.
+
+**How would you verify the new results?**
+
+---
+
+## Break
+
+---
+
+## Why IIIF?
+
+Large, detailed images are difficult to deliver as single downloads.
+
+Institutions want to support:
+
+- Deep zoom and navigation
+- Regions and sizes on demand
+- Reuse across different websites and tools
+- Multiple institutions' objects in one viewing environment
+
+**IIIF = International Image Interoperability Framework.**
+
+---
+
+## Ordinary image delivery vs. IIIF
+
+**Ordinary site:** a webpage links to a prepared JPEG.
+
+**IIIF-based delivery:** a viewer can request different sizes or regions from an image service through a documented API.
+
+IIIF is a set of interoperability standards, **not** one image format or one viewer.
+
+---
+
+<!-- .slide: class="workflow" -->
+## IIIF architecture
+
+**Source image** → **Image server** → **Image API** → **Viewer**
+
+**Presentation API manifest** → tells a viewer how images and associated information form an object
+
+Examples:
+
+- Image server: **Cantaloupe**
+- Viewer: **Mirador**
+
+The server supplies image responses; the viewer supplies the user interface.
+
+---
+
+<!-- .slide: class="activity" -->
+## Explore a IIIF viewer — 10 min
+
+Open a IIIF-enabled collection or [Mirador](https://projectmirador.org/).
+
+Try to find:
+
+1. Zoom and pan
+2. Multiple pages or canvases, if available
+3. Image details or metadata
+4. Sharing or linking options
+
+**Compare:** What can you do here that an ordinary embedded JPEG does not readily support?
+
+---
+
+## Viewer debrief — 5 min
+
+- Which features depend on the viewer interface?
+- Which depend on image requests from the server?
+- What happens if the viewer changes but the service remains?
+
+**Key distinction:** a viewer and an image server are different components.
+
+---
+
+## IIIF Image API
+
+The Image API describes ways to request a specific image representation.
+
+Requests can specify:
+
+- Region (full image or selected area)
+- Size
+- Rotation
+- Quality and format
+
+The server produces an image response for the request.
+
+[Image API 3.0](https://iiif.io/api/image/3.0/)
+
+---
+
+<!-- .slide: class="" -->
+## Anatomy of an Image API URL
+
+```text
+{server}/{identifier}/{region}/{size}/{rotation}/{quality}.{format}
+```
+
+Illustrative request structure:
+
+```text
+.../abc123/full/800,/0/default.jpg
+```
+
+- `abc123` identifies the image on the server
+- `full` requests the whole image
+- `800,` requests width 800 pixels (height proportional)
+- `0` requests no rotation
+- `default.jpg` specifies default quality, JPEG output
+
+**Note:** this is a structural example, not a live endpoint.
+
+---
+
+## IIIF Presentation API
+
+The Presentation API describes how images are organized and presented as a digital object.
+
+A **manifest** can describe:
+
+- An item (e.g., a manuscript)
+- Its ordered canvases/pages
+- Associated images and labels
+- Metadata and links to related resources
+
+[Presentation API 3.0](https://iiif.io/api/presentation/3.0/)
+
+---
+
+## Image API vs. Presentation API
+
+| Image API | Presentation API |
+|---|---|
+| How to obtain an image region/size | How to organize and describe an object |
+| Returns image representations | Returns structured JSON descriptions |
+| Serves zoom and cropping | Supports sequences, labels, metadata |
+
+**Question:** Which API would help a viewer display a ten-page manuscript in order?
+
+---
+
+<!-- .slide: class="activity" -->
+## Trace the request — 10 min
+
+Imagine a reader zooms into page 3 of a digitized manuscript.
+
+In pairs, sketch the sequence:
+
+1. Viewer loads the object's manifest.
+2. Viewer identifies the canvas and image service.
+3. Viewer requests the needed image region and size.
+4. Image server returns the image data.
+5. Viewer displays it.
+
+**Label the Image API and Presentation API roles.**
+
+---
+
+## APIs, identifiers, interoperability
+
+- **API:** a documented interface for software to exchange requests and responses
+- **Identifier:** a stable reference to a resource or service
+- **Persistent identifiers:** designed to remain usable even as systems change
+- **Interoperability:** tools and institutions can exchange and reuse content through shared conventions
+
+**Caution:** a URL alone is not guaranteed to remain persistent.
+
+---
+
+## Connect back to enterprise architecture
+
+- Storage retains masters
+- Processing creates or serves derivatives
+- Metadata systems describe objects
+- APIs expose resources in standardized ways
+- Viewers present them to users
+
+**Prompt:** Where do IIIF components fit into our Week 8 architecture layers?
+
+---
+
+<!-- .slide: class="activity" -->
+## CollectionBuilder or IIIF? — 8 min
+
+Compare two situations:
+
+**A.** A small exhibition of 30 photographs, each with a web JPEG and basic metadata.
+
+**B.** Thousands of manuscript pages needing deep zoom, page navigation, and cross-institution reuse.
+
+- What is the simplest adequate delivery approach for each?
+- What would IIIF add?
+- What would it cost to maintain?
+
+---
+
+<!-- .slide: class="activity" -->
+## Project application — 7 min
+
+For your final collection, record:
+
+1. The image files you have and the derivatives you need
+2. One processing rule you could apply consistently
+3. Whether ordinary web images are sufficient, and why
+4. One unanswered delivery or documentation question
+
+**Aim for a concrete decision you can use in the project.**
+
+---
+
+## Exit ticket — 5 min
+
+In your project notes:
+
+1. One image transformation you performed or can explain
+2. One distinction between the IIIF Image and Presentation APIs
+3. Your next image-processing or delivery task
+
+---
+
+## Looking ahead: Week 11
+
+**Text Objects I: XML, Markup, and TEI**
+
+As with images, the way we represent and structure digital objects shapes their preservation, discovery, and use.
+
+</textarea>
+</section>
+</div>
+</div>
+<script src="dist/reveal.js"></script>
+<script src="plugin/notes/notes.js"></script>
+<script src="plugin/markdown/markdown.js"></script>
+<script src="plugin/highlight/highlight.js"></script>
+<script>
+  Reveal.initialize({
+    hash: true,
+    slideNumber: true,
+    plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+  });
+</script>
+</body>
+</html>
