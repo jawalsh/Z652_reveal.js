@@ -224,7 +224,7 @@ done
 
 ---
 
-<!-- .slide: class="" -->
+<!-- .slide: class="smaller" -->
 ## Another example: batch derivatives
 
 ```
@@ -348,7 +348,7 @@ The server produces an image response for the request.
 
 ---
 
-<!-- .slide: class="" -->
+<!-- .slide: class="small" -->
 ## Anatomy of an Image API URL
 
 ```text
@@ -368,6 +368,24 @@ Illustrative request structure:
 - `default.jpg` specifies default quality, JPEG output
 
 **Note:** this is a structural example, not a live endpoint.
+
+---
+
+<!-- .slide: class="activity" -->
+## Activity: Exploring the IIIF Image API — 20 min
+
+[Introduction to APIs Using IIIF](https://jawalsh.github.io/z652-Digital-Libraries-FA26/iiif_api_spreadsheet_activity.html)
+
+Using Google Sheets, construct a IIIF Image API request and display the returned image.
+
+1. Assemble an image URL from individual parameters.
+2. Change the **size**, **rotation**, and **region** parameters.
+3. Observe how the returned image changes.
+4. Explore the image server's `info.json` response.
+
+**Discussion:** How does requesting an image through IIIF differ from creating derivatives with ImageMagick?
+
+*Adapted from Owen Stephens, “Introduction to APIs,” developed on behalf of the British Library (2016), CC BY 4.0.*
 
 ---
 
@@ -398,20 +416,84 @@ A **manifest** can describe:
 
 ---
 
-<!-- .slide: class="activity" -->
-## Trace the request — 10 min
+<!-- .slide: class="small" -->
+## IIIF Presentation API: requesting a manifest
 
-Imagine a reader zooms into page 3 of a digitized manuscript.
+**Image API:** Request image pixels, including a chosen region or size.
 
-In pairs, sketch the sequence:
+**Presentation API:** Request a machine-readable description of a digital object.
 
-1. Viewer loads the object's manifest.
-2. Viewer identifies the canvas and image service.
-3. Viewer requests the needed image region and size.
-4. Image server returns the image data.
-5. Viewer displays it.
+Example *illustrative* manifest URL (not a live endpoint):
 
-**Label the Image API and Presentation API roles.**
+```text
+https://example.org/iiif/book1/manifest
+```
+
+- Request: `GET` the manifest URL in a browser or application.
+- Response: **JSON-LD**, with `type: "Manifest"`.
+- Unlike an Image API URL, a manifest URL has **no prescribed region/size/rotation pattern**.
+
+**Question:** What does a viewer need to know besides the pixels in a page image?
+
+---
+
+<!-- .slide: class="small" -->
+## Anatomy of a IIIF manifest
+
+```text
+Manifest  (digital object: book, manuscript, etc.)
+│  label, metadata, ordered canvases
+├── Canvas: page 1  (a display surface)
+│   └── AnnotationPage
+│       └── painting Annotation
+│           └── Image resource → optionally Image API service
+└── Canvas: page 2
+    └── AnnotationPage
+        └── painting Annotation
+            └── Image resource → optionally Image API service
+```
+
+- **Manifest:** organizes the object and its sequence of canvases.
+- **Canvas:** the space on which a page's content is displayed.
+- **Painting annotation:** associates an image with that canvas.
+
+**Key idea:** The Presentation API describes the object; the Image API supplies image representations.
+
+---
+
+<!-- .slide: class="smaller" -->
+## Read a Presentation API response
+
+*Simplified teaching excerpt — not a complete, valid manifest:*
+
+```json
+{
+  "id": "https://example.org/iiif/book1/manifest",
+  "type": "Manifest",
+  "label": { "en": ["Book 1"] },
+  "items": [{
+    "id": "https://example.org/iiif/book1/canvas/p1",
+    "type": "Canvas",
+    "label": { "none": ["p. 1"] },
+    "width": 750, "height": 1000,
+    "items": [{
+      "type": "AnnotationPage",
+      "items": [{
+        "type": "Annotation", "motivation": "painting",
+        "body": {
+          "id": "https://example.org/iiif/book1/page1/full/max/0/default.jpg",
+          "type": "Image"
+        },
+        "target": "https://example.org/iiif/book1/canvas/p1"
+      }]
+    }]
+  }]
+}
+```
+
+**Find:** (1) object title, (2) page label, (3) image URL.
+
+[Official IIIF Presentation API 3.0 example](https://iiif.io/api/presentation/3.0/#b-example-manifest-response) · [IIIF Cookbook](https://iiif.io/api/cookbook/)
 
 ---
 
