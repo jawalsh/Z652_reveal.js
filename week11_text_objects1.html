@@ -1,0 +1,474 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Z652 Week 10: Image Objects II</title>
+  <link rel="stylesheet" href="dist/reset.css">
+  <link rel="stylesheet" href="dist/reveal.css">
+  <link rel="stylesheet" href="dist/theme/jawalsh.css">
+  <link rel="stylesheet" href="plugin/highlight/monokai.css">
+  <style type="text/css">
+    .reveal img {max-height: 70%; max-width: 60%;}
+    .reveal .small {font-size: 0.72em;}
+    .reveal .smaller {font-size: 0.60em;}
+    .reveal .columns {display: flex; gap: 2em; text-align: left;}
+    .reveal .columns > div {flex: 1;}
+    .reveal .activity {text-align: left;}
+    .reveal .activity h2 {text-align: center;}
+    .reveal .workflow {font-size: 0.8em; text-align: center;}
+    .reveal table {font-size: 0.72em;}
+    .reveal .tight li {margin-bottom: 0.2em;}
+	.reveal .full-image img {
+  		max-width: 100%;
+		max-height: 100%;
+	    width: auto;
+		height: auto;
+		margin: 0;
+		object-fit: contain;
+	}
+  </style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section data-markdown>
+<textarea data-template>
+# Text Objects I
+## XML, Markup, and TEI
+Z652 · Digital Libraries · Week 11
+
+---
+
+## Today: from page images to texts
+
+- Images preserve the appearance of pages.
+- Transcriptions preserve character sequences.
+- Structured markup identifies meaningful parts of texts.
+- **Question:** What becomes possible when a computer can distinguish a title from a paragraph, or a date from an ordinary string?
+
+---
+
+## Today's route
+
+1. Texts as digital objects; markup fundamentals
+2. **Activity:** Genre Encoding Exercises
+3. XML rules, schemas, and metadata vocabularies
+4. TEI structure and an Oxygen demonstration
+5. **Lab:** Encode and validate fan mail
+6. Debrief and next steps
+
+---
+
+## Three representations of a text
+
+**Plain text**
+
+```text
+Dear Editor,
+I loved the last issue.
+Sincerely, Pat
+```
+
+**Presentation markup:** what should it look like?
+
+```html
+<p><strong>Dear Editor,</strong></p>
+```
+
+**Descriptive markup:** what is it?
+
+```xml
+<opener><salute>Dear Editor,</salute></opener>
+```
+
+---
+
+## Markup makes claims
+
+- `<p>`: this is a paragraph.
+- `<date when="1965-04-12">April 12</date>`: this is a date, normalized for processing.
+- `<persName>`: this is a person's name.
+- Each choice interprets the source, rather than simply copying it.
+
+**Discuss:** What might be lost if we encode only what we can see on the page?
+
+---
+
+## XML is a syntax, not a vocabulary
+
+```xml
+<letter>
+  <salutation>Dear Editor,</salutation>
+  <paragraph>I loved the last issue.</paragraph>
+</letter>
+```
+
+XML specifies how markup is written. It does **not** define what `letter`, `salutation`, or `paragraph` mean, or whether they are permitted in a particular document type.
+
+---
+
+## Anatomy of an XML element
+
+```xml
+<date when="1965-04-12" cert="high">12 April 1965</date>
+```
+
+- **Start tag:** `<date ...>`
+- **Attributes:** `when`, `cert`, each with quoted values
+- **Content:** `12 April 1965`
+- **End tag:** `</date>`
+- **Element:** the entire structure
+
+---
+
+## XML documents form trees
+
+```xml
+<letter>
+  <opener>
+    <salute>Dear Editor,</salute>
+  </opener>
+  <body>
+    <p>Thank you for the comic.</p>
+  </body>
+</letter>
+```
+
+`letter` is the root; `opener` and `body` are children; `salute` is nested inside `opener`.
+
+---
+## XML trees: family relationships
+
+![XML Tree](images/xml_family_tree.svg)
+
+---
+
+## XML trees: family relationships
+
+```text
+book
+├── title
+├── chapter
+│   ├── heading
+│   ├── paragraph
+│   └── paragraph
+└── chapter
+    ├── heading
+    └── paragraph
+```
+
+<div class="smaller">
+
+- **Root:** `book` is the topmost element.
+- **Parent / child:** Each `chapter` is a child of `book` and a parent of its `heading` and `paragraph` elements.
+- **Siblings:** The two `chapter` elements share the same parent; so do the `heading` and `paragraph` elements within a chapter.
+- **Ancestor / descendant:** `book` is an ancestor of every `paragraph`; each `paragraph` is a descendant of `book`.
+- **Leaf:** An element with no child elements, such as `heading`.
+- **Depth:** The number of levels separating an element from the root.
+
+**Parent/child** describes an immediate relationship; **ancestor/descendant** can span multiple generations.
+
+</div>
+
+---
+
+
+<!-- .slide: class="activity" -->
+## Activity 1 · Genre Encoding Exercises
+
+Open: https://dcl.ils.indiana.edu/teiworkshop/genres.html
+
+**In pairs:** Choose a genre and identify at least five features you might encode. Decide which are structural, semantic, or merely visual.
+
+**Deliverable:** One encoding decision you agree on and one that you disagree about.
+
+*Allow ~15 minutes; then 8 minutes of discussion.*
+
+---
+
+## Genre activity · Debrief
+
+- What is a paragraph in a poem? A line? A stanza?
+- Is a date a string, a semantic object, or both?
+- How might a recipe and a letter demand different vocabularies?
+- Would a different research question lead to different markup?
+
+**Principle:** Encoding is a model of a text, built for particular purposes.
+
+---
+
+## Well-formed XML: the basic rules
+
+- Exactly one root element
+- Properly nested, closed tags
+- Case-sensitive names
+- Quoted attribute values
+- Escape reserved characters such as 
+	- `&` as `&amp;amp;`
+	- `<` as `&amp;lt;`
+
+```xml
+<text><p>Fish &amp; chips</p></text>
+```
+
+---
+
+## Spot the problems
+
+```xml
+<letter>
+  <p>Dear <name>Sam</p></name>
+  <p date=1965-04-12>Thanks & goodbye.
+</letter>
+```
+
+**Pair check:** Find at least four problems and propose repairs.
+
+---
+
+## Well-formed versus valid
+
+**Well-formed:** obeys XML's syntax rules.
+
+**Valid:** also conforms to a specified grammar/schema (for example, permitted elements, order, attributes, and datatypes).
+
+A document can be well-formed but invalid against a TEI schema.
+
+**Oxygen:** parser errors and schema validation are different checks.
+
+---
+
+## XML vocabularies in digital libraries
+
+| Vocabulary | Primary role |
+|---|---|
+| Dublin Core in XML | Basic descriptive metadata |
+| MODS | Rich bibliographic description |
+| MARCXML | XML representation of MARC records |
+| METS | Packaging/structural organization and links among files/metadata |
+| TEI | Structured textual content and its documentation |
+
+All can use XML syntax; they are not interchangeable.
+
+---
+
+## Dublin Core: description
+
+```xml
+<dc:title xmlns:dc="http://purl.org/dc/elements/1.1/">Fantastic Comics</dc:title>
+```
+
+- The prefix `dc` is associated with a namespace URI.
+- The element asserts a descriptive property.
+- XML serialization does not turn Dublin Core into a transcription format.
+
+---
+
+## MODS: richer bibliographic structure
+
+```xml
+<mods:mods xmlns:mods="http://www.loc.gov/mods/v3">
+  <mods:titleInfo>
+    <mods:title>Fantastic Comics</mods:title>
+  </mods:titleInfo>
+</mods:mods>
+```
+
+Nested fields can capture bibliographic relationships and distinctions beyond a simple title string.
+
+---
+
+## MARCXML: MARC expressed as XML
+
+```xml
+<record xmlns="http://www.loc.gov/MARC21/slim">
+  <datafield tag="245" ind1="0" ind2="0">
+    <subfield code="a">Fantastic Comics</subfield>
+  </datafield>
+</record>
+```
+
+MARC tags and subfields remain central; XML is the serialization.
+
+---
+
+## METS: organizing a digital object
+
+- Descriptive metadata references
+- Administrative metadata references
+- File inventory (`fileSec`)
+- Structural map (`structMap`)
+
+**Example:** Link a multi-page comic's ordered page images to relevant metadata and other files.
+
+METS organizes resources; it does not replace TEI for fine-grained text encoding.
+
+---
+
+## TEI: a vocabulary for texts
+
+The Text Encoding Initiative supplies guidelines and an extensible vocabulary for representing textual structure and meaning.
+
+Useful for letters, poetry, prose, drama, manuscripts, and other textual materials.
+
+**Important:** TEI is not synonymous with XML, and XML does not automatically imply TEI.
+
+---
+
+## A minimal TEI document
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt><title>Sample Letter</title></titleStmt>
+      <publicationStmt><p>Class exercise</p></publicationStmt>
+      <sourceDesc><p>Sample text supplied in class</p></sourceDesc>
+    </fileDesc>
+  </teiHeader>
+  <text><body><p>Hello, world.</p></body></text>
+</TEI>
+```
+
+---
+
+## The two major TEI components
+
+**`teiHeader`** documents the electronic text:
+
+- Title and responsibility
+- Publication/distribution information
+- Description of the source
+- Potentially encoding and revision history
+
+**`text`** holds the encoded textual content, commonly including `body`.
+
+---
+
+## TEI structures for letters
+
+```xml
+<div type="letter">
+  <opener>
+    <dateline><date when="1965-04-12">April 12, 1965</date></dateline>
+    <salute>Dear Editor,</salute>
+  </opener>
+  <p>I enjoyed the latest issue.</p>
+  <closer>
+    <salute>Sincerely,</salute>
+    <signed>Pat</signed>
+  </closer>
+</div>
+```
+
+Not every letter requires all these elements. Encode what your source and goals justify.
+
+---
+
+## Oxygen demonstration · follow along
+
+1. Open Oxygen XML Editor; create a new XML file.
+2. Add the TEI root and namespace.
+3. Add a `teiHeader` and `text` with `body`.
+4. Save as `.xml` and inspect indentation/structure.
+5. Introduce a syntax error; inspect the message; repair it.
+6. Associate a TEI schema if necessary; validate and inspect errors.
+
+**Note:** Available menus and validation behavior depend on Oxygen configuration.
+
+---
+
+<!-- .slide: class="activity" -->
+## Activity 2 · TEI Encoding: Fan Mail
+
+Open your assignment: **TEI Encoding Exercise — Fan Mail** (linked from the Week 11 syllabus).
+
+- Inspect the source and identify its structures.
+- Create the TEI header and text body.
+- Encode the relevant features of the letter.
+- Check well-formedness **and** schema validity.
+- Save and submit according to the assignment instructions.
+
+**Work independently or consult a neighbor when stuck.**
+
+---
+
+## Lab troubleshooting
+
+**If Oxygen reports an error:**
+
+1. Is this an XML syntax error or a schema-validation error?
+2. Does the document have one root element and the TEI namespace?
+3. Are all tags properly nested and closed?
+4. Is the element allowed *here*, according to the schema?
+5. Does the error point to a missing required header component?
+
+Do not remove meaningful markup simply to silence a validator.
+
+---
+
+## Lab checkpoint
+
+Before submitting, show a neighbor:
+
+- One encoding choice that captures meaning rather than appearance
+- One element with an attribute and an explanation of its purpose
+- A successful validation check, or a specific error you are still investigating
+
+---
+
+## Debrief: the same letter, different encodings
+
+- Which features did everyone identify?
+- Where did choices differ?
+- What could a researcher search or analyze because of your markup?
+- What would an image of the original page still preserve better?
+- When would plain text plus metadata be enough?
+
+---
+
+## Connect back to digital library architecture
+
+**Page image:** visual evidence and layout
+
+**OCR/transcription:** searchable characters
+
+**TEI:** explicit textual structure and interpretation
+
+**MODS/DC:** description for discovery
+
+**METS or manifests:** relationships and sequencing among resources
+
+**Delivery layer:** display, navigation, searching, and transformations
+
+These layers complement one another; not every collection needs every one.
+
+---
+
+## Exit reflection
+
+Write two sentences:
+
+1. One concrete service or research task that TEI makes possible or improves.
+2. One cost, limitation, or interpretive decision involved in producing TEI.
+
+**Next week:** Transforming, presenting, searching, and integrating text objects.
+</textarea>
+</section>
+</div>
+</div>
+<script src="dist/reveal.js"></script>
+<script src="plugin/notes/notes.js"></script>
+<script src="plugin/markdown/markdown.js"></script>
+<script src="plugin/highlight/highlight.js"></script>
+<script>
+  Reveal.initialize({
+    hash: true,
+    slideNumber: true,
+    plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+  });
+</script>
+</body>
+</html>
