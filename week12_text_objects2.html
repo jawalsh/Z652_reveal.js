@@ -1,0 +1,469 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Z652 Week 12: Text Objects II</title>
+  <link rel="stylesheet" href="dist/reset.css">
+  <link rel="stylesheet" href="dist/reveal.css">
+  <link rel="stylesheet" href="dist/theme/jawalsh.css">
+  <link rel="stylesheet" href="plugin/highlight/monokai.css">
+  <style type="text/css">
+	.reveal img {
+	  max-height: 500px;
+	  max-width: 100%;
+	  width: auto;
+	  height: auto;
+	  object-fit: contain;
+	  border: 1px solid black;
+	}
+    .reveal .small {font-size: 0.72em;}
+    .reveal .smaller {font-size: 0.60em;}
+    .reveal .columns {display: flex; gap: 2em; text-align: left;}
+    .reveal .columns > div {flex: 1;}
+    .reveal .activity {text-align: left;}
+    .reveal .activity h2 {text-align: center;}
+    .reveal .workflow {font-size: 0.8em; text-align: center;}
+    .reveal table {font-size: 0.72em;}
+    .reveal .tight li {margin-bottom: 0.2em;}
+	.reveal .full-image img {
+  		max-width: 100%;
+		max-height: 100%;
+	    width: auto;
+		height: auto;
+		margin: 0;
+		object-fit: contain;
+	}
+  </style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section data-markdown>
+<textarea data-template>
+# Text Objects II
+## OCR, Character Encoding, and Text Digitization
+Z652 · Digital Libraries · Week 12
+
+---
+
+## From page images to usable text
+
+- A scan captures a **visual representation** of a page.
+- OCR attempts to recover **characters** from that image.
+- Encoding determines how characters are **stored and exchanged**.
+- Correction and structure determine what we can **search and analyze**.
+
+---
+
+## Today's route
+
+1. Digitization workflows and textual representations
+2. Unicode and character encoding
+3. **Activity:** Diagnose corrupted text
+4. OCR methods, errors, and quality control
+5. **Lab:** Compare OCR tools and source types
+6. Debrief and implications for digital libraries
+
+---
+
+## Four representations of a page
+
+| Representation | What it captures |
+|---|---|
+| Page image | Appearance, layout, material evidence |
+| Plain transcription | Character sequences |
+| OCR output | Automatically inferred characters |
+| TEI or other markup | Explicit structure and interpretation |
+
+**Remember Week 11:** these representations complement rather than replace one another.
+
+---
+
+
+## Combining representations of text
+
+In digital libraries, these representations are often **combined** rather than presented separately.
+
+- **Searchable PDF:** Facsimile page images with an underlying OCR text layer, aligned with word positions on the page.
+- **Digital scholarly edition:** A structured transcription (e.g., TEI, transformed into HTML) displayed alongside facsimile page images.
+
+**The goal:** Combine the visual fidelity of the original page with the searchability, accessibility, and analytical possibilities of digital text.
+
+---
+<div class="columns">
+<div>
+		
+## Example: Searchable PDF
+
+**Page image + OCR text + positional information**
+
+- Preserves the appearance of the original page.
+- Supports searching, selecting, and highlighting text.
+- Connects recognized words to locations on the page.
+
+</div>
+<div>
+	
+![searchable pdf](images/swinburne_dedicatory_pdf.jpg)
+
+</div>
+</div>
+
+---
+
+## Example: Searchable PDF
+
+<div class="columns">
+	<div>
+		
+![searchable pdf](images/swinburne_dedicatory_pdf.jpg)
+
+</div>
+<div>
+
+![searchable pdf](images/swinburne_dedicatory_pdf_search.jpg)
+
+</div>
+</div>
+
+---
+
+## Example: Digital scholarly edition
+<div class="columns">
+	<div>
+		
+**Page image + structured transcription**
+
+- Preserves access to the original document.
+- Presents readable, searchable, and semantically structured text.
+- Allows readers to move between the transcription and its documentary source.
+
+</div>
+<div>
+	
+![TEI edition with facing transcription and facsimile](images/petrarchive.jpg) 
+
+<small><https://petrarchive.org></small>
+	
+</div>
+	
+
+---
+
+## Example: Digital scholarly edition
+
+![TEI edition with facing transcription and facsimile](images/van_gogh.png)
+
+<small><https://vangoghletters.org/detail/urn:mace:huc.knaw.nl:vangogh:let002></small>
+
+---
+
+## Text digitization workflow
+
+**Physical source → image capture → image processing → OCR / transcription → correction → structural description → access**
+
+- Preserve a high-quality source image.
+- Produce text for search and reuse.
+- Record provenance, software, and corrections.
+- Deliver image and text together when useful.
+
+---
+
+## Born-digital vs. digitized text
+
+**Born-digital:** text created as digital characters (e.g., a word-processing file).
+
+**Digitized:** text recovered from an analog source (e.g., scanned print).
+
+**Important:** A scanned PDF can be a collection of images with *no searchable text*.
+
+---
+
+## Character, glyph, code point, byte
+
+- **Character:** an abstract unit of writing, such as `é`.
+- **Glyph:** its visible shape in a particular font.
+- **Code point:** Unicode's assigned number (e.g., `U+00E9`).
+- **Bytes:** the stored representation under an encoding such as UTF-8.
+
+A font changes how text looks; an encoding changes how it is represented in bytes.
+
+---
+
+## Unicode and UTF-8
+
+- **Unicode** assigns code points to characters across writing systems.
+- **UTF-8** encodes those code points as sequences of bytes.
+- ASCII characters use one byte in UTF-8; many other characters use more.
+- XML documents should declare or reliably use a known encoding.
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+```
+
+---
+<!-- .slide: class="small" -->
+
+## Character encoding errors: Mojibake
+
+**[Mojibake](https://en.wikipedia.org/wiki/Mojibake)** occurs when text is displayed incorrectly because its bytes are interpreted using the wrong character encoding.
+
+| Intended text | Corrupted display |
+|---|---|
+| café | cafÃ© |
+| Français | FranÃ§ais |
+| “Hello” | â€œHelloâ€ |
+
+**Two different kinds of errors:**
+
+- **OCR error:** Misreading characters in an image (`rn` → `m`).
+- **Encoding error:** Misinterpreting the bytes representing characters (`é` → `Ã©`).
+
+Both can corrupt digital text, but they occur at different stages of digitization and processing.
+
+
+---
+
+<!-- .slide: class="activity small" -->
+
+## Activity 1 · OCR Quality and Fitness for Purpose
+
+A digital library is digitizing three collections:
+
+1. **100,000 historical books:** Intended for full-text searching and computational analysis.
+2. **500 legal case files:** Researchers need to identify every occurrence of particular names, dates, and legal terms.
+3. **50 nineteenth-century poems:** Intended for a scholarly digital edition.
+
+**In pairs (10 minutes):**
+
+For each collection, decide:
+
+- What level of OCR accuracy is needed?
+- What kinds of errors would be most consequential?
+- What quality-control or correction strategy would you recommend?
+
+**Discuss:** Why might the largest collection require the least correction per page?
+
+---
+
+## A subtle issue: Unicode normalization
+
+A displayed `é` can be represented as:
+
+- One code point: `U+00E9` (precomposed)
+- Two code points: `U+0065` + `U+0301` (e + combining acute)
+
+They may look identical but compare differently without normalization.
+
+**Implication:** search, matching, and text processing need consistent handling.
+
+---
+
+## What OCR actually does
+
+1. Analyze page image and regions.
+2. Identify lines, words, and/or characters.
+3. Predict text using recognition models.
+4. Produce output (plain text, searchable PDF, hOCR, ALTO, etc.).
+5. Optionally correct and verify the result.
+
+OCR is probabilistic recognition, **not** direct extraction of text already present in a scan.
+
+---
+
+## What makes OCR difficult?
+
+- Low resolution, blur, skew, and uneven lighting
+- Unusual or damaged typefaces
+- Multiple columns and complicated reading order
+- Illustrations, captions, speech balloons, and mixed layouts
+- Handwriting and nonstandard letterforms
+- Language and spelling not anticipated by the model
+
+---
+
+## Common recognition errors
+
+| Source | Possible OCR error |
+|---|---|
+| `rn` | `m` |
+| `l` | `1` or `I` |
+| `O` | `0` |
+| Hyphenated line endings | Incorrect joined or split words |
+| Two-column page | Incorrect reading order |
+
+
+---
+
+## OCR versus handwriting recognition
+
+**Printed text:** conventional OCR is often effective when images and type are clear.
+
+**Handwriting:** often requires HTR (handwritten text recognition) models and training data suited to the script and hand.
+
+A manuscript's poor OCR output is not necessarily evidence of a bad scan.
+
+---
+
+### Handwriting recognition products
+
+- [Transkribus](https://www.transkribus.org)
+- [Leo](https://www.tryleo.ai)
+
+---
+
+
+## Improving OCR quality
+
+- Start with an appropriate-resolution source image.
+- Correct skew, orientation, and severe contrast problems.
+- Choose appropriate language/model settings.
+- Check region segmentation and reading order.
+- Correct output against the image; retain provenance.
+
+**Caution:** aggressive image processing can remove evidence or degrade characters.
+
+---
+
+## Accuracy is more than a percentage
+
+- **Character error rate (CER):** substitutions + insertions + deletions divided by reference characters.
+- **Word error rate (WER):** analogous calculation over words.
+- **Layout accuracy:** whether reading order and structure are usable.
+- **Fitness for purpose:** adequate for discovery? quotation? computational analysis?
+
+A high character score can coexist with badly scrambled reading order.
+
+---
+
+## Three OCR approaches
+
+| Approach | Strength | Limitation |
+|---|---|---|
+| Adobe Acrobat | Convenient PDF workflow | Output/control depends on version |
+| ABBYY         | Commerical dedicated ORC software | Manual correction interface in Windows versions |
+| Online OCR service | Quick comparison | Privacy, limits, opaque settings |
+| Tesseract | Local, reproducible CLI | Installation and layout challenges |
+
+Choose tools based on source material and project requirements.
+
+---
+
+## Tesseract: basic command
+
+```bash
+tesseract sample.jpg output -l eng
+```
+
+- Reads `sample.jpg`.
+- Uses English recognition data (`eng`).
+- Writes `output.txt`.
+
+**Check:** Does the file exist? Is the reading order correct? Which characters failed?
+
+---
+
+<!-- .slide: class="activity" -->
+## Activity 2 · OCR Lab
+
+Open the **OCR Lab** assignment on the Week 12 syllabus.
+
+Test **Adobe Acrobat**, **at least one online OCR service**, and **Tesseract**, where supported.
+
+Use the provided images:
+
+- Swinburne, *Poems* (1904) — TIFF
+- *Kid Colt* fan mail (1965) — JPG
+- Williams manuscript (Yale Beinecke)
+
+**Compare results against the images, not just against one another.**
+
+---
+
+<!-- .slide: class="smaller activity" -->
+## OCR Lab · Comparison record
+
+For each sample/tool combination, note:
+
+1. Tool and relevant settings
+2. Whether recognition succeeded
+3. Reading order and layout issues
+4. Three concrete errors or discrepancies
+5. Whether output would support searching, display, or research
+
+**If a tool fails on handwriting or a file format, document the limitation.**
+
+---
+
+## Lab checkpoint
+
+Choose a short passage and compare its OCR against the source image.
+
+- Which errors change meaning?
+- Which errors only affect typography?
+- Are line breaks or columns handled correctly?
+- What would you correct manually?
+
+Save enough evidence to explain your judgment.
+
+---
+
+## OCR Lab · Debrief
+
+- Which tool performed best on which kind of source?
+- What surprised you about the manuscript?
+- Was the text *searchable* but still *unreliable*?
+- Which errors could be corrected automatically?
+- When is manual transcription preferable?
+
+---
+
+## What belongs in a digital library?
+
+**Source image:** preserve visual evidence.
+
+**OCR/transcription:** enable discovery and computational use.
+
+**Metadata:** describe the object and processing history.
+
+**Structured text:** support richer navigation and interpretation when needed.
+
+**Delivery:** make limitations and available representations clear to users.
+
+---
+<div style="display:none;">
+
+## Exit reflection
+
+Write three brief responses:
+
+1. One OCR error you observed and its likely cause.
+2. One difference between OCR failure and encoding failure.
+3. One text-processing decision relevant to your final project.
+
+</div>
+
+## Next week
+
+CollectionBuilder configuration, metadata integration, and customization.
+
+**By next week you should have a working final project CollectionBuilder site, not a complete final project, but a beginning, working site with at least one item and its metadata.**
+
+</textarea>
+</section>
+</div>
+</div>
+<script src="dist/reveal.js"></script>
+<script src="plugin/notes/notes.js"></script>
+<script src="plugin/markdown/markdown.js"></script>
+<script src="plugin/highlight/highlight.js"></script>
+<script>
+  Reveal.initialize({
+    hash: true,
+    slideNumber: true,
+    plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+  });
+</script>
+</body>
+</html>
