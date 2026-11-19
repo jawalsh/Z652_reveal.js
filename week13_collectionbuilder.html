@@ -1,0 +1,345 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Z652 Week 13: CollectionBuilder</title>
+  <link rel="stylesheet" href="dist/reset.css">
+  <link rel="stylesheet" href="dist/reveal.css">
+  <link rel="stylesheet" href="dist/theme/jawalsh.css">
+  <link rel="stylesheet" href="plugin/highlight/monokai.css">
+  <style type="text/css">
+	.reveal img {
+	  max-height: 500px;
+	  max-width: 100%;
+	  width: auto;
+	  height: auto;
+	  object-fit: contain;
+	  border: 1px solid black;
+	}
+    .reveal .small {font-size: 0.72em;}
+    .reveal .smaller {font-size: 0.60em;}
+    .reveal .columns {display: flex; gap: 2em; text-align: left;}
+    .reveal .columns > div {flex: 1;}
+    .reveal .activity {text-align: left;}
+    .reveal .activity h2 {text-align: center;}
+    .reveal .workflow {font-size: 0.8em; text-align: center;}
+    .reveal table {font-size: 0.72em;}
+    .reveal .tight li {margin-bottom: 0.2em;}
+	.reveal .full-image img {
+  		max-width: 100%;
+		max-height: 100%;
+	    width: auto;
+		height: auto;
+		margin: 0;
+		object-fit: contain;
+	}
+  </style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section data-markdown>
+<textarea data-template>
+# CollectionBuilder
+## Configuration, Metadata Integration, and Customization
+Z652 · Digital Libraries · Week 13
+
+---
+
+## Today's goal
+
+**Make your final-project collection work as a collection.**
+
+- Connect your own metadata and digital objects.
+- Verify what visitors actually see.
+- Configure labels, navigation, and site information.
+- Begin contextual and interpretive content.
+
+**Most of today is project lab time.**
+
+---
+
+## From source files to published site
+
+```text
+metadata CSV ──────────┐
+object files / URLs ───┤
+_config.yml ───────────┤──> CollectionBuilder / Jekyll ──> website
+_data/theme.yml ───────┤
+_data/config-*.csv ────┤
+Markdown + front matter┘
+```
+
+The repository contains **sources and settings**; the published site is the **result**.
+
+---
+<!-- .slide: class="small" -->
+## Which file does what?
+
+| Source | Responsibility |
+|---|---|
+| `_config.yml` | Core site settings; metadata selection; URLs |
+| `_data/theme.yml` | Theme and display settings |
+| `_data/config-*.csv` | Interface, navigation, and metadata-display configuration |
+| Metadata CSV | Descriptive records for objects |
+| Object files / URLs | Digital content described by records |
+| Markdown pages | Context and interpretation; YAML front matter |
+
+*Exact options and paths depend on your CollectionBuilder version.*
+
+---
+
+## Four formats, four roles
+
+- **CSV:** rows and columns of collection metadata.
+- **YAML:** structured configuration and page front matter.
+- **Markdown:** readable source for site pages.
+- **HTML:** the output visitors see in a browser.
+
+**Question:** If the site looks wrong, where is the source of the problem?
+
+---
+<!-- .slide: class="small" -->
+## Example CSV configuration:<br/> `config-metadata.csv`
+
+```csv
+field,display_name,browse_link,external_link
+title,Title,,
+creator,Artist,,
+support,Supporting Artist,,
+date,Performance Date,,
+description,Description,,
+subject,Subjects,true
+venue,Venue,true,
+price,Price,,
+location,Location,true,
+relation,Audio,,true
+source,Source,,
+identifier,Source Identifier,,
+type,Type,,
+format,Format,,
+rights,Rights,,
+rightsstatement,Rights Statement,,true
+```
+
+---
+<!-- .slide: class="small" -->
+## Example CSV configuration:<br/> `config-metadata.csv` (as table)
+| field           | display_name      | browse_link | external_link |
+|-----------------|-------------------|-------------|---------------|
+| title           | Title             |             |               |
+| creator         | Artist            |             |               |
+| support         | Supporting Artist |             |               |
+| date            | Performance Date  |             |               |
+| description     | Description       |             |               |
+| subject         | Subjects          | true        |               |
+| venue           | Venue             | true        |               |
+| price           | Price             |             |               |
+| location        | Location          | true        |               |
+| relation        | Audio             |             | true          |
+| source          | Source            |             |               |
+| identifier      | Source Identifier |             |               |
+| type            | Type              |             |               |
+| format          | Format            |             |               |
+| rights          | Rights            |             |               |
+| rightsstatement | Rights Statement  |             | true          |
+
+---
+
+## Sample YAML configuration: <br/> from `theme.yml`
+
+```yaml
+##########
+# SUBJECTS PAGE
+#
+subjects-fields: subject;creator # set the field to be featured in the cloud (if left blank, none will be generated)
+subjects-min: 1 # min size for subject cloud, too many terms = slow load time!
+subjects-stopwords: rock concerts # boxers;boxing;boxer # set of subjects separated by ;, e.g. boxers;boxing
+```
+
+---
+
+## How CollectionBuilder uses your metadata
+
+1. Create metadata in a spreadsheet, with one row per object and columns for metadata fields.
+2. Export the spreadsheet as a UTF-8 CSV file and add it to your CollectionBuilder repository.
+3. Configure CollectionBuilder to use that CSV file in _config.yml.
+4. Build and publish the site. CollectionBuilder uses the metadata to generate item pages, browse interfaces, and search functionality.
+5. Verify the results. Check that the correct objects, descriptions, and metadata fields appear on the published site.
+Important: A successful site build doesn't necessarily mean your metadata or object links are correct.
+
+---
+
+<!-- .slide: class="small" -->
+
+## Metadata troubleshooting
+
+If your collection objects or metadata aren't displaying correctly, check:
+
+1. **Metadata CSV:** Are field names correct? Are required values present? Is the file valid UTF-8 CSV?
+2. **Configuration:** Does `_config.yml` point to the correct metadata file?
+3. **Identifiers and filenames:** Do object filenames and URLs match the values in your metadata?
+4. **Metadata display:** Are the fields you want to display configured correctly in CollectionBuilder?
+5. **Published site:** Do item pages show the correct objects and metadata? Do browse and search work as expected?
+
+**Troubleshooting tip:** _Do not_ use spaces in your filenames. This will inevitably lead to problems.
+
+**Troubleshooting tip:** Start with one problematic item. Trace its metadata record through to the published item page.
+
+---
+<!-- .slide: class="activity small" -->
+## Demonstration · One record, end to end
+
+Follow one object from the metadata spreadsheet to its published item page.
+
+- Find its row and identifier.
+- Confirm its object file or URL.
+- Check the configured CSV source.
+- Open the published item page.
+- Compare displayed fields and labels with the source.
+
+**A successful build does not guarantee a correct item page.**
+
+---
+<!-- .slide: class="activity small" -->
+## Activity 1 · Verify two records (15 min)
+
+Work with a partner. Choose **two different or representative objects**.
+
+1. Compare each record with your MAP: required fields, values, formats.
+2. Check identifiers and object filenames/URLs.
+3. Open item pages: do images/files and labels work?
+4. Test discovery through browse or search.
+
+**Outcome:** One verified result, plus a correction or specific unresolved question.
+
+---
+
+## Debugging: follow the symptom
+
+| Symptom | First places to inspect |
+|---|---|
+| Object missing/broken | Identifier, filename, path, URL |
+| Wrong/missing metadata | CSV headers, values, display config |
+| Build fails | YAML syntax, CSV formatting, build log |
+| Page missing from menu | Page front matter, navigation config |
+| Change not visible | Commit, build/deploy status, published URL |
+
+Change **one thing**, republish, and test again.
+
+---
+
+## Configuration should serve visitors
+
+- Replace template title and description.
+- Make the home page explain the collection.
+- Keep browse and item pages intelligible.
+- Show useful fields with meaningful labels.
+- Remove unhelpful or internal (e.g., administrative) fields.
+- Remove irrelevant navigation links.
+
+**What does your intended audience need first?**
+
+---
+<!-- .slide: class="activity" -->
+## Activity 2 · Make one visible improvement (15 min)
+
+Choose a configuration change that improves the site for your audience.
+
+- Find the setting in the repository.
+- Change and commit it.
+- Verify the result on the published site.
+
+**Be ready to show:** source file → change → resulting page.
+
+---
+<!-- .slide: class="small" -->
+## Markdown pages and YAML front matter
+
+```yaml
+	---
+	title: Introduction
+	---
+	
+	# Introduction to the Collection
+	
+	Explain the collection's history, scope, or selection.
+	
+	See [a relevant collection item](ITEM-URL).’
+```
+
+Use your project's existing page as the model; check how your theme handles navigation and permalinks.
+
+---
+
+## Context is not another metadata field
+
+An **About**, **Introduction** or and other interpretive pages can explain:
+
+- Why this collection exists and for whom
+- Selection, exclusions, and provenance
+- Historical or cultural context
+- Rights and limitations
+- Relationships among individual items
+
+**Link claims and examples to actual collection items.**
+
+---
+
+## Where do visitors get stuck?
+
+Ask a partner to:
+
+1. Find an item through browse or search.
+2. Explain what it is from the item page.
+3. Find background information about the collection.
+
+Observe a real point of confusion. Fix it if possible.
+
+---
+<!-- .slide: class="activity" -->
+## Final project lab · Priorities
+
+1. Connect **your metadata and objects**.
+2. Verify item pages and discovery.
+3. Configure useful labels, site identity, and navigation.
+4. Develop About and contextual/interpretive content.
+
+**Instructors and classmates can help diagnose problems.**
+
+---
+
+## Before you leave
+
+Record in your project notes:
+
+- **Verified:** a working page, link, or configuration change (include its URL).
+- **Remaining:** your most consequential unresolved issue.
+- **Next:** the specific action you'll take before Week 14.
+
+---
+
+## Next class · Deployment and troubleshooting
+
+Continue adding objects and testing the published collection.
+
+We'll focus on deployment, final checks, and the **4–6-minute recorded walkthrough** of your completed project.
+
+</textarea>
+</section>
+</div>
+</div>
+<script src="dist/reveal.js"></script>
+<script src="plugin/notes/notes.js"></script>
+<script src="plugin/markdown/markdown.js"></script>
+<script src="plugin/highlight/highlight.js"></script>
+<script>
+  Reveal.initialize({
+    hash: true,
+    slideNumber: true,
+    plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+  });
+</script>
+</body>
+</html>
